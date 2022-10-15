@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Flex, HStack, Input, Button, VStack, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+import cs from '../addStyles.module.css';
 
 const axiosInst = axios.create({
     baseURL: 'http://localhost:3001',
@@ -28,13 +29,11 @@ const SearchCustomer = () => {
 
     return (
         <>
-            <Flex width="100%" align="center" justify="center" padding="3px" bg="gray.700">
-                <HStack>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input bg="white" {...register("search_name")} />
+            <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
+                    <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
+                        <Input width="auto" bg="white" {...register("search_name")} />
                         <Button type="submit">検索</Button>
                     </form>
-                </HStack>
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
