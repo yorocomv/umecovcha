@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Flex, HStack, Input, Button, VStack, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
@@ -24,30 +25,32 @@ const SearchCustomer = () => {
                 console.error(err);
             }
         };
-        if ( !searchName ) return;
+        if (!searchName) return;
         getCustomers();
     }, [searchName]);
 
     return (
         <>
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
-                    <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
-                        <Input width="auto" bg="white" {...register("search_name")} />
-                        <Button type="submit">検索</Button>
-                    </form>
+                <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
+                    <Input width="auto" bg="white" {...register("search_name")} />
+                    <Button type="submit">検索</Button>
+                </form>
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
-                    <HStack key={customer.id}>
-                        <VStack>
-                            <Text>{customer.name1}</Text>
-                            <Text>{customer.name2}</Text>
-                        </VStack>
-                        <VStack>
-                            <Text>{customer.address1}</Text>
-                            <Text>{customer.address2}</Text>
-                        </VStack>
-                    </HStack>
+                    <Link key={customer.id} to={`customer/${customer.id}`} target="_blank">
+                        <HStack>
+                            <VStack>
+                                <Text>{customer.name1}</Text>
+                                <Text>{customer.name2}</Text>
+                            </VStack>
+                            <VStack>
+                                <Text>{customer.address1}</Text>
+                                <Text>{customer.address2}</Text>
+                            </VStack>
+                        </HStack>
+                    </Link>
                 ))}
             </VStack>
         </>

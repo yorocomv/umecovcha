@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ListOfCustomers from './routes/list-of-customers';
 import SearchCustomer from './routes/search-customer';
+import CheckCustomer from "./routes/check-customer";
+import ListOfCustomers from './routes/list-of-customers';
 
 const App = () => {
 
@@ -8,6 +9,9 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SearchCustomer />} />
+        <Route path="/customer" element={<CheckCustomer />}>
+          <Route path=":id" element={<CheckCustomer />} />
+        </Route>
         <Route path="/view" element={<ListOfCustomers />} />
       </Routes>
     </BrowserRouter>
