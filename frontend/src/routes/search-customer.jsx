@@ -9,21 +9,22 @@ const axiosInst = axios.create({
 });
 
 const SearchCustomer = () => {
-    const [searchName, setsearchName] = useState(null);
+    const [searchName, setSearchName] = useState(null);
     const [customers, setCustomers] = useState([]);
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = d => setsearchName(d.search_name);
+    const onSubmit = d => setSearchName(d.search_name);
 
     useEffect(() => {
         const getCustomers = async () => {
             try {
-                const res = await axiosInst.get(`/search?name=${searchName}`);
+                const res = await axiosInst.get(`/?search-name=${searchName}`);
                 setCustomers(res.data);
             } catch (err) {
                 console.error(err);
             }
         };
+        if ( !searchName ) return;
         getCustomers();
     }, [searchName]);
 

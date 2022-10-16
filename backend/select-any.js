@@ -27,7 +27,7 @@ export const getCustomers = async (req, res, next) => {
 };
 
 export const searchCustomer = async (req, res, next) => {
-    const name = req.query.name;
+    const name = req.query['search-name'];
 
     const db = await pool.connect();
     try {

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import * as selectList from './select-list';
+import * as selectAny from './select-any';
 
 const app = express();
 const port = 3001;
@@ -14,7 +14,7 @@ app.use(
   })
 );
 
-app.get('/', selectList.getCustomers);
-app.get('/search', selectList.searchCustomer);
+app.get('/', selectAny.searchCustomer);
+app.get('/view', selectAny.getCustomers);
 
 app.listen(port, () => console.log(`this app listening at http://localhost:${port}`));
