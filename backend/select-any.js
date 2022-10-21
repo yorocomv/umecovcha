@@ -40,3 +40,18 @@ export const searchCustomer = async (req, res, next) => {
     }
     pool.end();
 };
+
+export const getSameAddress = async (req, res, next) => {
+    const addressSha1 = req.query['address-sha1'];
+
+    const db = await pool.connect();
+    try {
+        const rows = (await db.query('SELECT * FROM customers WHERE address_sha1 = $1;', [addressSha1])).rows;
+        return res.status(200).json(rows);
+    } catch (err) {
+        next(err.stack);
+    } finally {
+        db.release();
+    }
+    pool.end();
+};

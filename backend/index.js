@@ -16,6 +16,7 @@ app.use(
 );
 
 app.get('/', selectAny.searchCustomer);
+app.get('/sameaddress', selectAny.getSameAddress);
 app.get('/customer/:id', selectOne.getCustomerById);
 app.get('/view', selectAny.getCustomers);
 
