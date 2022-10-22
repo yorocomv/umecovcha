@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import {
-  VStack,
-  HStack,
-  Text,
-} from '@chakra-ui/react';
 import SelectedCustomer from './selected-customer';
+import ListOfSameAddressCustomers from './list-of-same-address-customers';
 
 const axiosInst = axios.create({
   baseURL: 'http://localhost:3001',
@@ -18,6 +14,7 @@ const CheckCustomer = () => {
   const [isContinue, setIsContinue] = useState(false);
 
   const { id } = useParams();
+  const setContinue = bool => setIsContinue(!bool);
 
   useEffect(() => {
     const getCustomer = async () => {
@@ -32,27 +29,15 @@ const CheckCustomer = () => {
       }
     };
     getCustomer();
-  }, []);
+  }, [id]);
 
-  if (sameAddressCustomers.length > 1) {
-    console.log(sameAddressCustomers); console.log(customer.name1);
-    return (
-      <VStack padding={4}>
-        {sameAddressCustomers.map((sameAddrCustomer) => (
-          <HStack key={sameAddrCustomer.id}>
-            {sameAddrCustomer.id === customer.id && <Text>選択中</Text>}
-            <VStack>
-              <Text>{sameAddrCustomer.name1}</Text>
-              <Text>{sameAddrCustomer.name2}</Text>
-            </VStack>
-            <VStack>
-              <Text>{sameAddrCustomer.address1}</Text>
-              <Text>{sameAddrCustomer.address2}</Text>
-            </VStack>
-          </HStack>
-        ))}
-      </VStack>
-    );
+  if (sameAddressCustomers.length > 1 && isContinue === false) {
+    return (<ListOfSameAddressCustomers
+      sameAddressCustomers={sameAddressCustomers}
+      customerId={customer.id}
+      setContinue={setContinue}
+      isContinue={isContinue}
+    />);
   }
   return <SelectedCustomer customer={customer} />;
 };

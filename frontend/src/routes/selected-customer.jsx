@@ -4,17 +4,17 @@ import {
     Text,
 } from '@chakra-ui/react';
 
-const SelectedCustomer = (p) => {
+const SelectedCustomer = ({ customer }) => {
     return (
         <VStack padding={4} >
             <HStack>
                 <VStack>
-                    <Text>{p.customer.name1}</Text>
-                    <Text>{p.customer.name2}</Text>
+                    <Text>{customer.name1}</Text>
+                    <Text>{customer.name2}</Text>
                 </VStack>
                 <VStack>
-                    <Text>{p.customer.address1}</Text>
-                    <Text>{p.customer.address2}</Text>
+                    <Text>{customer.address1}</Text>
+                    <Text>{customer.address2}</Text>
                 </VStack>
             </HStack>
         </VStack >
