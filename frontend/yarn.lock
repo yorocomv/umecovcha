@@ -1708,6 +1708,11 @@ is-core-module@^2.9.0:
   dependencies:
     has "^1.0.3"
 
+jaconv@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jaconv/-/jaconv-1.0.4.tgz#0cffeeea50c14651b66eb6cfe38705b0cbb2c1df"
+  integrity sha512-7cB2JN+sMAf5zpdeclDh1Rzqi5E/9fX348GsRg83HrusRvBFDqsRKH+czME55glrW3nBcBYrOzl9OCp7r39psg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
