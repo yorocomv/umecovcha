@@ -27,9 +27,9 @@ const jaKousei = (orgName) => {
     name = name.replace( /センタ/g, "C");
     name = name.replace( /物流ステション/g, "DS");
     name = name.replace( /流通C|物流C|配送C|商品C|食品C/g, "C");
-    name = name.replace( /常温C|冷温C|冷蔵冷凍C|冷凍冷蔵C|冷蔵C|冷凍C/g, "C");
+    name = name.replace( /常温C|冷温C|冷蔵冷凍C|冷凍冷蔵C|冷蔵C|冷凍C|ドライC/g, "C");
     name = name.replace( /RDC|FDC|SDC|DC|SC/g, "C");
-    name = name.replace( /C&Cタジマヤ/g, "タジマヤ");
+    name = name.replace( /オ茶ノ|茶ノ|C&C/g, "");
 
     return name;
 };
