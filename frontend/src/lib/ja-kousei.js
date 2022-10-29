@@ -13,6 +13,8 @@ const jaKousei = (orgName) => {
     name = name.trim();
     name = name.toUpperCase();
     name = name.replace( /\s/gi, "" );
+    /* 引用符やプライム記号を削除 */
+    name = name.replace( /['′‵ʹ’]/g, "" );
     /* グロッサリ => グロサリ */
     name = name.replace( /ッ/g, "");
     /* 空() と ()の中に一文字 のものを削除 */
@@ -34,4 +36,4 @@ const jaKousei = (orgName) => {
     return name;
 };
 
-module.exports =jaKousei;
+module.exports = jaKousei;
