@@ -31,7 +31,7 @@ export const searchCustomer = async (req, res, next) => {
 
     const db = await pool.connect();
     try {
-        const rows = (await db.query(`SELECT * FROM customers WHERE search_name LIKE '%${name}%';`)).rows;
+        const rows = (await db.query(`SELECT * FROM customers WHERE searched_name LIKE '%${name}%';`)).rows;
         return res.status(200).json(rows);
     } catch (err) {
         next(err.stack);
