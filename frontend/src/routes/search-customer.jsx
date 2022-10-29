@@ -5,6 +5,8 @@ import { Flex, HStack, Input, Button, VStack, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
+import { jaKousei } from '../lib/ja-kousei';
+
 const axiosInst = axios.create({
     baseURL: 'http://localhost:3001',
 });
@@ -14,7 +16,10 @@ const SearchCustomer = () => {
     const [customers, setCustomers] = useState([]);
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = d => setSearchName(d.search_name);
+    const onSubmit = d => {
+        let searchName = jaKousei(d.search_name);
+        setSearchName(searchName);
+    };
 
     useEffect(() => {
         const getCustomers = async () => {
@@ -48,6 +53,7 @@ const SearchCustomer = () => {
                             <VStack>
                                 <Text>{customer.address1}</Text>
                                 <Text>{customer.address2}</Text>
+                                <Text>{customer.address3}</Text>
                             </VStack>
                         </HStack>
                     </Link>

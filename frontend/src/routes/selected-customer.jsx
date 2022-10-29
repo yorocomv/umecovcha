@@ -15,6 +15,7 @@ const SelectedCustomer = ({ customer }) => {
                 <VStack>
                     <Text>{customer.address1}</Text>
                     <Text>{customer.address2}</Text>
+                    <Text>{customer.address3}</Text>
                 </VStack>
             </HStack>
         </VStack >

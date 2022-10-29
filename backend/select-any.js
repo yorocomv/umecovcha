@@ -31,7 +31,7 @@ export const searchCustomer = async (req, res, next) => {
 
     const db = await pool.connect();
     try {
-        const rows = (await db.query(`SELECT * FROM customers WHERE searched_name LIKE '%${name}%';`)).rows;
+        const rows = (await db.query(`SELECT * FROM customers WHERE searched_name LIKE '%${name}%' ORDER BY updated_at DESC;`)).rows;
         return res.status(200).json(rows);
     } catch (err) {
         next(err.stack);
@@ -46,7 +46,7 @@ export const getSameAddress = async (req, res, next) => {
 
     const db = await pool.connect();
     try {
-        const rows = (await db.query('SELECT * FROM customers WHERE address_sha1 = $1;', [addressSha1])).rows;
+        const rows = (await db.query('SELECT * FROM customers WHERE address_sha1 = $1 ORDER BY updated_at DESC;', [addressSha1])).rows;
         return res.status(200).json(rows);
     } catch (err) {
         next(err.stack);

@@ -27,6 +27,7 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
                             <VStack>
                                 <Text>{sameAddrCustomer.address1}</Text>
                                 <Text>{sameAddrCustomer.address2}</Text>
+                                <Text>{sameAddrCustomer.address3}</Text>
                             </VStack>
                         </HStack>
                     </Link>
