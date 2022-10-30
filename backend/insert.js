@@ -12,7 +12,7 @@ export const createCustomer = async (req, res, next) => {
 
     const db = await pool.connect();
     try {
-        return res.status(201).send(`返却値は${name1}`);
+        return res.status(201).send(`${JSON.stringify(req.body)}`);
     } catch (err) {
         next(err.stack);
     } finally {
