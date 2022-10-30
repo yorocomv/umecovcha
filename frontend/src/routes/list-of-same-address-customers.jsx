@@ -15,9 +15,7 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
             </Flex>
             <VStack padding={4}>
                 {sameAddressCustomers.map((sameAddrCustomer) => (
-                    /* CheckCustomer コンポーネントの子コンポーネントなので
-                       現在のパスは `/customer/{:id}' */
-                    <Link to={`./${sameAddrCustomer.id}`} key={sameAddrCustomer.id}>
+                    <Link to={`/customers/${sameAddrCustomer.id}`} key={sameAddrCustomer.id}>
                         <HStack>
                             {sameAddrCustomer.id === customerId && <Text>選択中</Text>}
                             <VStack>

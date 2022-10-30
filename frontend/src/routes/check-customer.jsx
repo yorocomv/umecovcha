@@ -19,7 +19,7 @@ const CheckCustomer = () => {
   useEffect(() => {
     const getCustomer = async () => {
       try {
-        const resCustomer = await axiosInst.get(`/customer/${id}`);
+        const resCustomer = await axiosInst.get(`/customers/${id}`);
         setCustomer(resCustomer.data[0]);
         const addrSha1 = resCustomer.data[0].address_sha1;
         const resSameAddressCustomers = await axiosInst.get(`/sameaddress?address-sha1=${addrSha1}`);

@@ -44,7 +44,7 @@ const SearchCustomer = () => {
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
-                    <Link key={customer.id} to={`customer/${customer.id}`} target="_blank">
+                    <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
                         <HStack>
                             <VStack>
                                 <Text>{customer.name1}</Text>

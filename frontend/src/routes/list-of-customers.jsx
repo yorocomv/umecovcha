@@ -15,7 +15,7 @@ const ListOfCustomers = () => {
   useEffect(() => {
     const getCustomers = async () => {
       try {
-        const res = await axiosInst.get('/view');
+        const res = await axiosInst.get('/customers');
         setCustomers(res.data);
       } catch (err) {
         console.error(err);
