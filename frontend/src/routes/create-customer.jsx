@@ -1,6 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { getAddress } from '../lib/get-address';
+import { localURI } from './local-uri';
+import { normalize, config } from '@geolonia/normalize-japanese-addresses';
 import {
     VStack,
     Container,
@@ -23,6 +26,9 @@ const yupSchema = yup.object().shape({
     alias: yup.string().trim().max(30, '30文字まで入力できます'),
 });
 
+/* '/jp/api/ja' では上手くいかない */
+config.japaneseAddressesApi = `http://${localURI}/jp/api/ja`;
+
 const CreateCustomer = () => {
     const {
         handleSubmit,
@@ -33,9 +39,13 @@ const CreateCustomer = () => {
         resolver: yupResolver(yupSchema),
     });
 
-    const onSubmit = async d => {
+    const onSubmit = async reg => {
         try {
-            const res = await axiosInst.post('/customers', d);
+            let address = reg.address1 + reg.address2 + reg.address3;
+            address = getAddress(address);
+            const normalObj = await normalize(address);
+            const queryObj = { ...reg, ...normalObj };
+            const res = await axiosInst.post('/customers', queryObj);
             console.log(res.data);
         } catch (err) {
             console.error(err);

@@ -1,4 +1,7 @@
 backend/pool.js
+frontend/src/routes/local-uri.js
+# @geolonia/normalize-japanese-addresses の API エンドポイントを格納
+frontend/public/jp/
 
 # Logs
 logs

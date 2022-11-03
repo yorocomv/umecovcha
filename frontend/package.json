@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^2.3.5",
     "@emotion/react": "11",
     "@emotion/styled": "11",
+    "@geolonia/normalize-japanese-addresses": "^2.7.2",
     "@hookform/resolvers": "^2.9.10",
     "axios": "^1.1.2",
     "framer-motion": "6",

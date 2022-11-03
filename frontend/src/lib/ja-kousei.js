@@ -30,7 +30,7 @@ export function jaKousei( orgName ) {
     name = name.replace( /物流ステション/g, "DS");
     name = name.replace( /流通C|物流C|配送C|共同配送C|共配C|商品C|食品C/g, "C");
     name = name.replace( /常温C|冷温C|冷蔵冷凍C|冷凍冷蔵C|冷蔵C|冷凍C|ドライC/g, "C");
-    name = name.replace( /RDC|FDC|SDC|IDC|DDC|DC|SC/g, "C");
+    name = name.replace( /DC|SC/g, "C");
     name = name.replace( /オ茶ノ|茶ノ|C&C/g, "");
 
     return name;
