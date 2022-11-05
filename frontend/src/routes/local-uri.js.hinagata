@@ -1,1 +1,17 @@
-export const localURI = '127.0.0.1:5173'; /* Vite のデフォルトは '127.0.0.1:5173' */
+let localURITemp;
+
+switch (import.meta.env.MODE) {
+    case 'development':
+        localURITemp = 'http://127.0.0.1:5173'; /* Vite のデフォルトは '127.0.0.1:5173' */
+        break;
+
+    case 'production':
+        localURITemp = 'http://127.0.0.1:4173'; /* Vite のデフォルトは '127.0.0.1:4173' */
+        break;
+
+    default:
+        localURITemp = 'http://127.0.0.1:80';
+        break;
+}
+
+export const localURI = localURITemp;

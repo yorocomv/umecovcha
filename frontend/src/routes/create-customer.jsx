@@ -27,7 +27,7 @@ const yupSchema = yup.object().shape({
 });
 
 /* '/jp/api/ja' では上手くいかない */
-config.japaneseAddressesApi = `http://${localURI}/jp/api/ja`;
+config.japaneseAddressesApi = `${localURI}/jp/api/ja`;
 
 const CreateCustomer = () => {
     const {
