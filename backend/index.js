@@ -17,9 +17,11 @@ app.use(
 );
 
 app.get('/', selectAny.searchCustomer);
+app.get('/maxsha1sameval', selectOne.getMaxSha1SameVal);
 app.get('/sameaddress', selectAny.getSameAddress);
 app.get('/customers', selectAny.getCustomers);
 app.get('/customers/:id', selectOne.getCustomerById);
+app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
 

@@ -1,9 +1,12 @@
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { getAddress } from '../lib/get-address';
 import { localURI } from './local-uri';
 import { normalize, config } from '@geolonia/normalize-japanese-addresses';
+import SHA1 from 'crypto-js/sha1';
+import { jaKousei } from '../lib/ja-kousei';
 import {
     VStack,
     Container,
@@ -12,12 +15,15 @@ import {
     FormControl,
     Input,
     Button,
+    Select,
 } from '@chakra-ui/react';
 import { axiosInst } from './axios-instance';
 
 const yupSchema = yup.object().shape({
     tel: yup.string().trim().required('電話番号は必須項目です').matches(/^(104|[-0-9]{10,13})$/, '電話番号として適当ではありません'),
-    zip_code: yup.string().trim().required('郵便番号は必須項目です').matches(/^[-0-9]{7,8}$/, '郵便番号として適当ではありません'),
+    zipCode: yup.string().trim().transform(
+        val => val.replace(/-/g, '')
+    ).required('郵便番号は必須項目です').matches(/^[0-9]{7}$/, '郵便番号として適当ではありません'),
     address1: yup.string().trim().max(32, '32文字まで入力できます').required('住所1は必須項目です'),
     address2: yup.string().trim().max(32, '32文字まで入力できます'),
     address3: yup.string().trim().max(32, '32文字まで入力できます'),
@@ -39,12 +45,38 @@ const CreateCustomer = () => {
         resolver: yupResolver(yupSchema),
     });
 
+    const [invoices, setInvoices] = useState([]);
+    const [invoiceId, setInvoiceId] = useState('1');
+
+    useEffect(() => {
+        const getInvoices = async () => {
+            try {
+                const res = await axiosInst.get('/invoices');
+                setInvoices(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getInvoices();
+    }, []);
+
+    const handleChange = e => setInvoiceId(e.target.value);
+
     const onSubmit = async reg => {
         try {
             let address = reg.address1 + reg.address2 + reg.address3;
             address = getAddress(address);
             const normalObj = await normalize(address);
-            const queryObj = { ...reg, ...normalObj };
+            const normalAddr = normalObj.pref + normalObj.city + normalObj.town + normalObj.addr;
+            const addressSHA1 = SHA1(normalAddr).toString();
+            let sha1SameVal = 0;
+            const max = (await axiosInst.get(`/maxsha1sameval?address-sha1=${addressSHA1}`)).data;
+            if (max !== null && max >= 0) sha1SameVal = max + 1;
+            let searchedName = reg.name1 + reg.name2 + reg.alias;
+            searchedName = jaKousei(searchedName);
+            const queryObj = { ...reg, ...normalObj, addressSHA1, sha1SameVal, searchedName };
+            /* 伝票の種類をスルーすると空文字列が入る */
+            if (!queryObj.invoiceId) delete queryObj.invoiceId;
             const res = await axiosInst.post('/customers', queryObj);
             console.log(res.data);
         } catch (err) {
@@ -69,16 +101,16 @@ const CreateCustomer = () => {
                         </FormErrorMessage>
                     </FormControl>{/* ===== ココマデ ===== */}
 
-                    <FormControl isInvalid={errors.zip_code}>{/* ----- ヒトマトマリ ----- */}
+                    <FormControl isInvalid={errors.zipCode}>{/* ----- ヒトマトマリ ----- */}
                         <FormLabel htmlFor='zip_code'>郵便番号</FormLabel>
                         <Input
                             id='zip_code'
                             placeholder='郵便番号'
-                            {...register('zip_code')}
+                            {...register('zipCode')}
                             width='2xs'
                         />
                         <FormErrorMessage>
-                            {errors.zip_code && errors.zip_code.message}
+                            {errors.zipCode && errors.zipCode.message}
                         </FormErrorMessage>
                     </FormControl>{/* ===== ココマデ ===== */}
 
@@ -151,8 +183,26 @@ const CreateCustomer = () => {
                         </FormErrorMessage>
                     </FormControl>{/* ===== ココマデ ===== */}
 
+                    <FormLabel htmlFor='invoice_id'>伝票の種類</FormLabel>
+                    <Select
+                        id='invoice_id'
+                        value={invoiceId}
+                        {...register('invoiceId')}
+                        onChange={handleChange}
+                        width='2xs'
+                    >
+                        {invoices.map(invoice => (
+                            <option
+                                key={invoice.id}
+                                value={invoice.id}
+                            >
+                                {invoice.name}
+                            </option>
+                        ))}
+                    </Select>
+
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                        Submit
+                        登録
                     </Button>
                 </form>
             </Container>

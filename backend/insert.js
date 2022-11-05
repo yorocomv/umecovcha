@@ -2,12 +2,12 @@ const pool = require('./pool');
 
 export const createCustomer = async (req, res, next) => {
     const {
-        tel, zip_code,
+        tel, zipCode,
         address1, address2, address3,
-        name1, name2, alias, searched_name,
-        address_sha1, sha1_same_val,
-        nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level,
-        invoice_id
+        name1, name2, alias, searchedName,
+        addressSHA1, sha1SameVal,
+        pref, city, town, addr, lat, lng, level,
+        invoiceId
     } = req.body;
 
     const db = await pool.connect();

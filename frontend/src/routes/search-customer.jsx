@@ -17,7 +17,7 @@ const SearchCustomer = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = d => {
-        let searchName = jaKousei(d.search_name);
+        const searchName = jaKousei(d.search_name);
         setSearchName(searchName);
     };
 
@@ -41,6 +41,9 @@ const SearchCustomer = () => {
                     <Input width="auto" bg="white" {...register("search_name")} />
                     <Button type="submit">検索</Button>
                 </form>
+                <Link to={'customers/new'}>
+                    <Text color="orange.50" paddingLeft={4}>新規登録</Text>
+                </Link>
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
