@@ -38,6 +38,7 @@ config.japaneseAddressesApi = `${localURI}/jp/api/ja`;
 const CreateCustomer = () => {
     const {
         handleSubmit,
+        setValue,
         register,
         formState: { errors, isSubmitting },
     } = useForm({
@@ -46,7 +47,6 @@ const CreateCustomer = () => {
     });
 
     const [invoices, setInvoices] = useState([]);
-    const [invoiceId, setInvoiceId] = useState('1');
 
     useEffect(() => {
         const getInvoices = async () => {
@@ -60,7 +60,9 @@ const CreateCustomer = () => {
         getInvoices();
     }, []);
 
-    const handleChange = e => setInvoiceId(e.target.value);
+    useEffect(() => {
+        if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
+    }, [invoices]);
 
     const onSubmit = async reg => {
         try {
@@ -75,8 +77,6 @@ const CreateCustomer = () => {
             let searchedName = reg.name1 + reg.name2 + reg.alias;
             searchedName = jaKousei(searchedName);
             const queryObj = { ...reg, ...normalObj, addressSHA1, sha1SameVal, searchedName };
-            /* 伝票の種類をスルーすると空文字列が入る */
-            if (!queryObj.invoiceId) delete queryObj.invoiceId;
             const res = await axiosInst.post('/customers', queryObj);
             console.log(res.data);
         } catch (err) {
@@ -186,9 +186,7 @@ const CreateCustomer = () => {
                     <FormLabel htmlFor='invoice_id'>伝票の種類</FormLabel>
                     <Select
                         id='invoice_id'
-                        value={invoiceId}
                         {...register('invoiceId')}
-                        onChange={handleChange}
                         width='2xs'
                     >
                         {invoices.map(invoice => (
