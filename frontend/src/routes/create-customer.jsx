@@ -40,6 +40,7 @@ const CreateCustomer = () => {
         handleSubmit,
         setValue,
         register,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm({
         mode: 'all',
@@ -64,6 +65,11 @@ const CreateCustomer = () => {
         if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
     }, [invoices]);
 
+    /* https://github.com/react-hook-form/react-hook-form/discussions/2549 */
+    const checkKeyDown = e => {
+        if (e.key === 'Enter') e.preventDefault();
+    };
+
     const onSubmit = async reg => {
         try {
             let address = reg.address1 + reg.address2 + reg.address3;
@@ -79,6 +85,8 @@ const CreateCustomer = () => {
             const queryObj = { ...reg, ...normalObj, addressSHA1, sha1SameVal, searchedName };
             const res = await axiosInst.post('/customers', queryObj);
             console.log(res.data);
+            reset();
+            if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
         } catch (err) {
             console.error(err);
         }
@@ -87,7 +95,7 @@ const CreateCustomer = () => {
     return (
         <VStack padding={4}>
             <Container width='4xl'>
-                <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                <form onSubmit={handleSubmit(onSubmit)} onKeyDown={ e => checkKeyDown(e) } autoComplete="off">
                     <FormControl isInvalid={errors.tel}>{/* ----- ヒトマトマリ ----- */}
                         <FormLabel htmlFor='tel'>電話番号</FormLabel>
                         <Input
