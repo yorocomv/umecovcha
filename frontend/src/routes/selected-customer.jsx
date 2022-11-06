@@ -1,10 +1,23 @@
+import { useEffect } from 'react';
 import {
     VStack,
     HStack,
     Text,
 } from '@chakra-ui/react';
+import { axiosInst } from './axios-instance';
 
 const SelectedCustomer = ({ customer }) => {
+
+    useEffect(() => {
+        const outputcsv = async () => {
+            if (customer.id) {
+                const res = (await axiosInst.post('/outputcsv', customer)).data;
+                console.log(res);
+            }
+        };
+        outputcsv();
+    }, []);
+
     return (
         <VStack padding={4} >
             <HStack>
