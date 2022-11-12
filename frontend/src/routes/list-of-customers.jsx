@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   VStack,
   HStack,
   Text,
 } from '@chakra-ui/react';
-
-const axiosInst = axios.create({
-  baseURL: 'http://localhost:3001',
-});
+import { axiosInst } from './_axios-instance';
 
 const ListOfCustomers = () => {
   const [customers, setCustomers] = useState([]);

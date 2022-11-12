@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Flex, HStack, Input, Button, VStack, Text } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
 import { jaKousei } from '../lib/ja-kousei';
-
-const axiosInst = axios.create({
-    baseURL: 'http://localhost:3001',
-});
+import { axiosInst } from './_axios-instance';
 
 const SearchCustomer = () => {
     const [searchName, setSearchName] = useState(null);
