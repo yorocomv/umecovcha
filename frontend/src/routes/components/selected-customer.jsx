@@ -4,7 +4,7 @@ import {
     HStack,
     Text,
 } from '@chakra-ui/react';
-import { axiosInst } from './axios-instance';
+import { axiosInst } from '../_axios-instance';
 
 const SelectedCustomer = ({ customer }) => {
 

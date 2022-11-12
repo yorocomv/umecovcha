@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { getAddress } from '../lib/get-address';
-import { localURI } from './local-uri';
+import { localURI } from './_local-uri';
 import { normalize, config } from '@geolonia/normalize-japanese-addresses';
 import SHA1 from 'crypto-js/sha1';
 import { jaKousei } from '../lib/ja-kousei';
@@ -17,7 +17,7 @@ import {
     Button,
     Select,
 } from '@chakra-ui/react';
-import { axiosInst } from './axios-instance';
+import { axiosInst } from './_axios-instance';
 
 const yupSchema = yup.object().shape({
     tel: yup.string().trim().required('電話番号は必須項目です').matches(/^(104|[-0-9]{10,13})$/, '電話番号として適当ではありません'),
