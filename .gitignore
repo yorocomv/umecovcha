@@ -1,4 +1,6 @@
 backend/pool.js
+# データを CSV (UTF-8 BOM) で書き出す出力先
+backend/__SYMBOLICLINK__/
 frontend/src/routes/local-uri.js
 # @geolonia/normalize-japanese-addresses の API エンドポイントを格納
 frontend/public/jp/

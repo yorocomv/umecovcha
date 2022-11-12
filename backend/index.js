@@ -25,6 +25,6 @@ app.get('/customers/:id', selectOne.getCustomerById);
 app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
-app.post('/outputcsv', io.writeOutDetailsCustomer);
+app.post('/outputcsv', io.writeOutCustomerDetails);
 
 app.listen(port, () => console.log(`this app listening at http://localhost:${port}`));
