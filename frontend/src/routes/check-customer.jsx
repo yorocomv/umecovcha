@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import SelectedCustomer from './selected-customer';
-import ListOfSameAddressCustomers from './list-of-same-address-customers';
+import SelectedCustomer from './components/selected-customer';
+import ListOfSameAddressCustomers from './components/list-of-same-address-customers';
 
 const axiosInst = axios.create({
   baseURL: 'http://localhost:3001',
