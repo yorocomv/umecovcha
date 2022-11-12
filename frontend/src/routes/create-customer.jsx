@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { getAddress } from '../lib/get-address';
@@ -10,14 +10,10 @@ import { jaKousei } from '../lib/ja-kousei';
 import {
     VStack,
     Container,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Input,
     Button,
-    Select,
 } from '@chakra-ui/react';
 import { axiosInst } from './_axios-instance';
+import CustomerInputs from './components/customer-inputs';
 
 const yupSchema = yup.object().shape({
     tel: yup.string().trim().required('電話番号は必須項目です').matches(/^(104|[-0-9]{10,13})$/, '電話番号として適当ではありません'),
@@ -36,16 +32,18 @@ const yupSchema = yup.object().shape({
 config.japaneseAddressesApi = `${localURI}/jp/api/ja`;
 
 const CreateCustomer = () => {
-    const {
-        handleSubmit,
-        setValue,
-        register,
-        reset,
-        formState: { errors, isSubmitting },
-    } = useForm({
+
+    const useFormMethods = useForm({
         mode: 'all',
         resolver: yupResolver(yupSchema),
     });
+
+    const {
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { isSubmitting },
+    } = useFormMethods;
 
     const [invoices, setInvoices] = useState([]);
 
@@ -95,122 +93,15 @@ const CreateCustomer = () => {
     return (
         <VStack padding={4}>
             <Container width='4xl'>
-                <form onSubmit={handleSubmit(onSubmit)} onKeyDown={ e => checkKeyDown(e) } autoComplete="off">
-                    <FormControl isInvalid={errors.tel}>{/* ----- ヒトマトマリ ----- */}
-                        <FormLabel htmlFor='tel'>電話番号</FormLabel>
-                        <Input
-                            id='tel'
-                            placeholder='電話番号'
-                            {...register('tel')}
-                            width='2xs'
-                        />
-                        <FormErrorMessage>
-                            {errors.tel && errors.tel.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
+                <FormProvider {...useFormMethods}>
+                    <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)} autoComplete="off">
+                        <CustomerInputs invoices={invoices} />
 
-                    <FormControl isInvalid={errors.zipCode}>{/* ----- ヒトマトマリ ----- */}
-                        <FormLabel htmlFor='zip_code'>郵便番号</FormLabel>
-                        <Input
-                            id='zip_code'
-                            placeholder='郵便番号'
-                            {...register('zipCode')}
-                            width='2xs'
-                        />
-                        <FormErrorMessage>
-                            {errors.zipCode && errors.zipCode.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.address1}>{/* ----- ヒトマトマリ ----- */}
-                        <FormLabel htmlFor='address1'>住所</FormLabel>
-                        <Input
-                            id='address1'
-                            placeholder='住所1'
-                            {...register('address1')}
-                        />
-                        <FormErrorMessage>
-                            {errors.address1 && errors.address1.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.address2}>{/* ----- ヒトマトマリ ----- */}
-                        <Input
-                            id='address2'
-                            placeholder='住所2'
-                            {...register('address2')}
-                        />
-                        <FormErrorMessage>
-                            {errors.address2 && errors.address2.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.address3}>{/* ----- ヒトマトマリ ----- */}
-                        <Input
-                            id='address3'
-                            placeholder='住所3'
-                            {...register('address3')}
-                        />
-                        <FormErrorMessage>
-                            {errors.address3 && errors.address3.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.name1}>{/* ----- ヒトマトマリ ----- */}
-                        <FormLabel htmlFor='name1'>名称</FormLabel>
-                        <Input
-                            id='name1'
-                            placeholder='名称1'
-                            {...register('name1')}
-                        />
-                        <FormErrorMessage>
-                            {errors.name1 && errors.name1.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.name2}>{/* ----- ヒトマトマリ ----- */}
-                        <Input
-                            id='name2'
-                            placeholder='名称2'
-                            {...register('name2')}
-                        />
-                        <FormErrorMessage>
-                            {errors.name2 && errors.name2.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormControl isInvalid={errors.alias}>{/* ----- ヒトマトマリ ----- */}
-                        <FormLabel htmlFor='alias'>検索用別名</FormLabel>
-                        <Input
-                            id='alias'
-                            placeholder='検索用別名'
-                            {...register('alias')}
-                        />
-                        <FormErrorMessage>
-                            {errors.alias && errors.alias.message}
-                        </FormErrorMessage>
-                    </FormControl>{/* ===== ココマデ ===== */}
-
-                    <FormLabel htmlFor='invoice_id'>伝票の種類</FormLabel>
-                    <Select
-                        id='invoice_id'
-                        {...register('invoiceId')}
-                        width='2xs'
-                    >
-                        {invoices.map(invoice => (
-                            <option
-                                key={invoice.id}
-                                value={invoice.id}
-                            >
-                                {invoice.name}
-                            </option>
-                        ))}
-                    </Select>
-
-                    <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                        登録
-                    </Button>
-                </form>
+                        <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
+                            登録
+                        </Button>
+                    </form>
+                </FormProvider>
             </Container>
         </VStack>
     );
