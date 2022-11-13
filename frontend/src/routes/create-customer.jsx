@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { getAddress } from '../lib/get-address';
@@ -32,6 +33,8 @@ const yupSchema = yup.object().shape({
 config.japaneseAddressesApi = `${localURI}/jp/api/ja`;
 
 const CreateCustomer = () => {
+    /* id が真値ならば編集モード */
+    const { id } = useParams();
 
     const useFormMethods = useForm({
         mode: 'all',
@@ -46,9 +49,10 @@ const CreateCustomer = () => {
     } = useFormMethods;
 
     const [invoices, setInvoices] = useState([]);
+    const [resCustomerObj, setResCustomerObj] = useState({});
 
     useEffect(() => {
-        const getInvoices = async () => {
+        const fetchInvoices = async () => {
             try {
                 const res = await axiosInst.get('/invoices');
                 setInvoices(res.data);
@@ -56,12 +60,33 @@ const CreateCustomer = () => {
                 console.error(err);
             }
         };
-        getInvoices();
+        const fetchCustomerObj = async () => {
+            try {
+                const res = await axiosInst.get(`/customers/${id}`);
+                setResCustomerObj(res.data[0]);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchInvoices();
+        if (id) fetchCustomerObj();
     }, []);
 
     useEffect(() => {
-        if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
-    }, [invoices]);
+        if (id) {
+            setValue('tel', resCustomerObj.tel);
+            setValue('zipCode', resCustomerObj.zip_code);
+            setValue('address1', resCustomerObj.address1);
+            setValue('address2', resCustomerObj.address2);
+            setValue('address3', resCustomerObj.address3);
+            setValue('name1', resCustomerObj.name1);
+            setValue('name2', resCustomerObj.name2);
+            setValue('alias', resCustomerObj.alias);
+            setValue('invoiceId', resCustomerObj.invoice_id);
+        } else {
+            if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
+        }
+    }, [invoices, resCustomerObj]);
 
     /* https://github.com/react-hook-form/react-hook-form/discussions/2549 */
     const checkKeyDown = e => {
@@ -78,15 +103,29 @@ const CreateCustomer = () => {
             let sha1SameVal = 0;
             const max = (await axiosInst.get(`/maxsha1sameval?address-sha1=${addressSHA1}`)).data;
             if (max !== null && max >= 0) sha1SameVal = max + 1;
+            /* 編集モードで住所に変更がなければ既存の数値に書き戻し */
+            if (id && resCustomerObj.address_sha1 === addressSHA1) {
+                sha1SameVal = resCustomerObj.sha1_same_val;
+            }
             let searchedName = reg.name1 + reg.name2 + reg.alias;
             searchedName = jaKousei(searchedName);
             const queryObj = { ...reg, ...normalObj, addressSHA1, sha1SameVal, searchedName };
-            const res = await axiosInst.post('/customers', queryObj);
-            console.log(res.data);
-            reset();
-            if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
+            //const res = await axiosInst.post('/customers', queryObj);
+            //console.log(res.data);
+            console.log(queryObj);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const handleReset = () => {
+        if (id) {
+            const zipCode = resCustomerObj.zip_code;
+            const invoiceId = resCustomerObj.invoice_id;
+            reset({ ...resCustomerObj, zipCode, invoiceId });
+        } else {
+            reset();
+            if (invoices.length !== 0) setValue('invoiceId', invoices[0]['id']);
         }
     };
 
@@ -99,6 +138,9 @@ const CreateCustomer = () => {
 
                         <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
                             登録
+                        </Button>
+                        <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>
+                            { id ? 'リセット' : 'クリア' }
                         </Button>
                     </form>
                 </FormProvider>

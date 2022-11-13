@@ -38,7 +38,7 @@ const SearchCustomer = () => {
                     <Button type="submit">検索</Button>
                 </form>
                 <Link to={'customers/new'}>
-                    <Text color="orange.50" paddingLeft={4}>新規登録</Text>
+                    <Text color="orange.50" marginLeft={4}>新規登録</Text>
                 </Link>
             </Flex>
             <VStack padding={4}>

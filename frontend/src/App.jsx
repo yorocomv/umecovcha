@@ -13,6 +13,7 @@ const App = () => {
         <Route path="/customers" element={<ListOfCustomers />} />
         <Route path="/customers/:id" element={<CheckCustomer />} />
         <Route path="/customers/new" element={<CreateCustomer />} />
+        <Route path="/customers/:id/edit" element={<CreateCustomer />} />
       </Routes>
     </BrowserRouter>
   );
