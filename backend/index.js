@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import * as selectAny from './select-any';
 import * as selectOne from './select-one';
 import * as insert from './insert';
+import * as update from './update';
+import * as deleteOne from './delete-one';
 import * as io from './io';
 
 const app = express();
@@ -26,5 +28,9 @@ app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
 app.post('/outputcsv', io.writeOutCustomerDetails);
+
+app.put('/customers/:id', update.updateCustomerById);
+
+app.delete('/customers/:id', deleteOne.deleteCustomerById);
 
 app.listen(port, () => console.log(`this app listening at http://localhost:${port}`));

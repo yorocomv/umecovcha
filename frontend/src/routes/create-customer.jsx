@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { getAddress } from '../lib/get-address';
@@ -35,6 +35,7 @@ config.japaneseAddressesApi = `${localURI}/jp/api/ja`;
 const CreateCustomer = () => {
     /* id が真値ならば編集モード */
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const useFormMethods = useForm({
         mode: 'all',
@@ -110,9 +111,15 @@ const CreateCustomer = () => {
             let searchedName = reg.name1 + reg.name2 + reg.alias;
             searchedName = jaKousei(searchedName);
             const queryObj = { ...reg, ...normalObj, addressSHA1, sha1SameVal, searchedName };
-            //const res = await axiosInst.post('/customers', queryObj);
-            //console.log(res.data);
-            console.log(queryObj);
+            let res = {};
+            if (id) {
+                res = await axiosInst.put(`/customers/${id}`, queryObj);
+            } else {
+                res = await axiosInst.post('/customers', queryObj);
+            }
+            console.log(res.data);
+            reset();
+            navigate(`/customers/${res.data.id}?nowcreated=true`);
         } catch (err) {
             console.error(err);
         }
@@ -137,7 +144,7 @@ const CreateCustomer = () => {
                         <CustomerInputs invoices={invoices} />
 
                         <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                            登録
+                            { id ? '修正' : '登録' }
                         </Button>
                         <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>
                             { id ? 'リセット' : 'クリア' }

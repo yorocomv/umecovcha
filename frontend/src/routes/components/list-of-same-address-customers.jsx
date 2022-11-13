@@ -4,6 +4,8 @@ import {
     Text,
     Button,
     Flex,
+    Stack,
+    Heading,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -14,19 +16,22 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
                 <Button onClick={() => setContinue(isContinue)}>続ける</Button>
             </Flex>
             <VStack padding={4}>
+                <Heading size='lg' margin={3}>もしかして、、🤔</Heading>
                 {sameAddressCustomers.map((sameAddrCustomer) => (
                     <Link to={`/customers/${sameAddrCustomer.id}`} key={sameAddrCustomer.id}>
                         <HStack>
-                            {sameAddrCustomer.id === customerId && <Text>選択中</Text>}
-                            <VStack>
-                                <Text>{sameAddrCustomer.name1}</Text>
-                                <Text>{sameAddrCustomer.name2}</Text>
-                            </VStack>
-                            <VStack>
-                                <Text>{sameAddrCustomer.address1}</Text>
-                                <Text>{sameAddrCustomer.address2}</Text>
-                                <Text>{sameAddrCustomer.address3}</Text>
-                            </VStack>
+                            {sameAddrCustomer.id === customerId && <Text fontWeight='bold' color='green.400'>✅ 選択中</Text>}
+                            <Flex borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
+                                <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
+                                    <Text>{sameAddrCustomer.name1}</Text>
+                                    <Text>{sameAddrCustomer.name2}</Text>
+                                </Stack>
+                                <Stack padding={1}>
+                                    <Text>{sameAddrCustomer.address1}</Text>
+                                    <Text>{sameAddrCustomer.address2}</Text>
+                                    <Text>{sameAddrCustomer.address3}</Text>
+                                </Stack>
+                            </Flex>
                         </HStack>
                     </Link>
                 ))}

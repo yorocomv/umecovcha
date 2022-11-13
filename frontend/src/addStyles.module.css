@@ -1,3 +1,16 @@
 .flexForm {
     display: flex;
 }
+.deleteButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+.warningText {
+    font-size: x-large;
+    font-weight: 900;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}

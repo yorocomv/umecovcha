@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import SelectedCustomer from './components/selected-customer';
 import ListOfSameAddressCustomers from './components/list-of-same-address-customers';
 import { axiosInst } from './_axios-instance';
+import cs from '../addStyles.module.css';
 
 const CheckCustomer = () => {
   const [customer, setCustomer] = useState({});
@@ -10,6 +11,7 @@ const CheckCustomer = () => {
   const [isContinue, setIsContinue] = useState(false);
 
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const setContinue = bool => setIsContinue(!bool);
 
   useEffect(() => {
@@ -20,6 +22,10 @@ const CheckCustomer = () => {
         const addrSha1 = resCustomer.data[0].address_sha1;
         const resSameAddressCustomers = await axiosInst.get(`/sameaddress?address-sha1=${addrSha1}`);
         setSameAddressCustomers(resSameAddressCustomers.data);
+        /* CreateCustomer から飛んできた時の目印を探す */
+        if (searchParams.get('nowcreated') === 'true') {
+          setIsContinue(true);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -27,7 +33,11 @@ const CheckCustomer = () => {
     getCustomer();
   }, [id]);
 
-  if (sameAddressCustomers.length > 1 && isContinue === false) {
+  if (!customer) {
+    return (
+      <div className={cs.warningText}>指定されたデータは登録されていません 🥵</div>
+    );
+  } else if (sameAddressCustomers.length > 1 && isContinue === false) {
     return (<ListOfSameAddressCustomers
       sameAddressCustomers={sameAddressCustomers}
       customerId={customer.id}
@@ -35,7 +45,10 @@ const CheckCustomer = () => {
       isContinue={isContinue}
     />);
   }
-  return <SelectedCustomer customer={customer} />;
+  return (<SelectedCustomer
+    customer={customer}
+    sameAddressCustomersLength={sameAddressCustomers.length}
+  />);
 };
 
 export default CheckCustomer;

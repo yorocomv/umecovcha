@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, HStack, Input, Button, VStack, Text } from '@chakra-ui/react';
+import { Flex, Input, Button, VStack, Text, Stack } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
@@ -35,26 +35,26 @@ const SearchCustomer = () => {
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
                     <Input width="auto" bg="white" {...register("search_name")} />
-                    <Button type="submit">検索</Button>
+                    <Button type="submit" marginLeft={1}>検索</Button>
                 </form>
-                <Link to={'customers/new'}>
+                <Link to={'customers/new'} target="_blank">
                     <Text color="orange.50" marginLeft={4}>新規登録</Text>
                 </Link>
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
-                        <HStack>
-                            <VStack>
+                        <Flex borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
+                            <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
                                 <Text>{customer.name1}</Text>
                                 <Text>{customer.name2}</Text>
-                            </VStack>
-                            <VStack>
+                            </Stack>
+                            <Stack padding={1}>
                                 <Text>{customer.address1}</Text>
                                 <Text>{customer.address2}</Text>
                                 <Text>{customer.address3}</Text>
-                            </VStack>
-                        </HStack>
+                            </Stack>
+                        </Flex>
                     </Link>
                 ))}
             </VStack>
