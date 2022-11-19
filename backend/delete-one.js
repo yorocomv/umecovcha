@@ -1,4 +1,4 @@
-const pool = require('./pool');
+import pool from './pool';
 
 export const deleteCustomerById = async (req, res, next) => {
     const id = parseInt(req.params.id, 10);

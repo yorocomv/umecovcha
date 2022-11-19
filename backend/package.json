@@ -1,10 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.cjs",
+  "type": "commonjs",
   "license": "MIT",
   "scripts": {
-    "apiview": "nodemon index.js --exec babel-node"
+    "build": "rollup -c",
+    "start": "npm run build && nodemon dist/index.cjs"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
@@ -14,8 +16,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
-    "@babel/node": "^7.19.1",
     "@babel/preset-env": "^7.19.3",
-    "nodemon": "^2.0.20"
+    "@rollup/plugin-babel": "^6.0.2",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "esbuild": "^0.15.14",
+    "nodemon": "^2.0.20",
+    "rollup": "^3.3.0",
+    "rollup-plugin-esbuild": "^5.0.0"
   }
 }

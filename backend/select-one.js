@@ -1,4 +1,4 @@
-const pool = require('./pool');
+import pool from './pool';
 
 export const getCustomerById = async (req, res, next) => {
     const id = parseInt(req.params.id, 10);

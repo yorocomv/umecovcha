@@ -1,4 +1,4 @@
-const fs = require('node:fs/promises');
+import fs from 'node:fs/promises';
 
 export const writeOutCustomerDetails = async (req, res, next) => {
     const {

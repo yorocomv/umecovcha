@@ -1,4 +1,4 @@
-const pool = require('./pool');
+import pool from './pool';
 
 export const getCustomers = async (req, res, next) => {
 
