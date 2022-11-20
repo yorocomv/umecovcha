@@ -1,5 +1,21 @@
 import axios from 'axios';
 
+let baseURLTemp;
+
+switch (import.meta.env.MODE) {
+    case 'development':
+        baseURLTemp = 'http://127.0.0.1:81';
+        break;
+
+    case 'production':
+        baseURLTemp = 'http://127.0.0.1:82';
+        break;
+
+    default:
+        baseURLTemp = 'http://127.0.0.1:80';
+        break;
+}
+
 export const axiosInst = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: baseURLTemp,
 });

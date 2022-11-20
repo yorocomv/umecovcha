@@ -7,8 +7,8 @@
   "scripts": {
     "build": "rollup -c",
     "start": "npm run build && nodemon dist/index.cjs",
-    "s_install": "node Register-for-the-service/svc-install.js",
-    "s_uninstall": "node Register-for-the-service/svc-uninstall.js"
+    "s_install": "node Register-for-the-service/svc-install.cjs",
+    "s_uninstall": "node Register-for-the-service/svc-uninstall.cjs"
   },
   "dependencies": {
     "body-parser": "^1.20.1",

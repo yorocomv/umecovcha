@@ -1,4 +1,4 @@
-const svc = require('./svc');
+const svc = require('./svc.cjs');
 
 // Listen for the "uninstall" event so we know when it's done.
 svc.on('uninstall',function(){
