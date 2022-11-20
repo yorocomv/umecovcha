@@ -8,6 +8,7 @@ import {
     Heading,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import cs from '../../addStyles.module.css';
 
 const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setContinue, isContinue }) => {
     return (
@@ -19,7 +20,7 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
                 <Heading size='lg' margin={3}>もしかして、、🤔</Heading>
                 {sameAddressCustomers.map((sameAddrCustomer) => (
                     <Link to={`/customers/${sameAddrCustomer.id}`} key={sameAddrCustomer.id}>
-                        <HStack>
+                        <HStack className={cs.fontWeightBold}>
                             {sameAddrCustomer.id === customerId && <Text fontWeight='bold' color='green.400'>✅ 選択中</Text>}
                             <Flex borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
                                 <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>

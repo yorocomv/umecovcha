@@ -46,7 +46,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
                 </Link>
             </Flex>
             <VStack padding={4} >
-                <Stack padding={1}>
+                <Stack className={cs.fontWeightBold} padding={1}>
                     <Flex>
                         <Text>☎ </Text>
                         <Text>{customer.tel}</Text>

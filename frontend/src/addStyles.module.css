@@ -14,3 +14,11 @@
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
 }
+.fontWeightBold {
+    font-weight: bold;
+}
+.lightSpot {
+    color: #49274a;
+    background-color: #f8eee7;
+    height: 100vh;
+}

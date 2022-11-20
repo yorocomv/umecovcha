@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { axiosInst } from './_axios-instance';
 import CustomerInputs from './components/customer-inputs';
+import cs from '../addStyles.module.css';
 
 const yupSchema = yup.object().shape({
     tel: yup.string().trim().required('電話番号は必須項目です').matches(/^(104|[-0-9]{10,13})$/, '電話番号として適当ではありません'),
@@ -137,7 +138,7 @@ const CreateCustomer = () => {
     };
 
     return (
-        <VStack padding={4}>
+        <VStack padding={4} className={cs.lightSpot}>
             <Container width='4xl'>
                 <FormProvider {...useFormMethods}>
                     <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)} autoComplete="off">

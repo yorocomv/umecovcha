@@ -34,17 +34,17 @@ const SearchCustomer = () => {
         <>
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
-                    <Input width="auto" bg="white" {...register("search_name")} />
+                    <Input className={cs.fontWeightBold} width="auto" bg="white" {...register("search_name")} />
                     <Button type="submit" marginLeft={1}>検索</Button>
                 </form>
                 <Link to={'customers/new'} target="_blank">
-                    <Text color="orange.50" marginLeft={4}>新規登録</Text>
+                    <Text fontWeight="bold" color="green.200" marginLeft={4}>新規登録</Text>
                 </Link>
             </Flex>
             <VStack padding={4}>
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
-                        <Flex borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
+                        <Flex className={cs.fontWeightBold} borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
                             <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
                                 <Text>{customer.name1}</Text>
                                 <Text>{customer.name2}</Text>
