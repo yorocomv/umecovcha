@@ -1,6 +1,8 @@
 backend/pool.js
-# データを CSV (UTF-8 BOM) で書き出す出力先
+# データを TSV (UTF-8 BOM) で書き出す出力先
 backend/__SYMBOLICLINK__/
+# シンボリックリンクはファイル扱い
+backend/__SYMBOLICLINK__
 # バックエンドサーバーのビルド先
 backend/dist/
 # 本番のバックエンドサーバーの環境変数
