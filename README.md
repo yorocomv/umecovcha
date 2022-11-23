@@ -17,3 +17,12 @@
 ### CSV ファイルの置き場所を設定
 
 - `backend\__SYMBOLICLINK__` に本番サーバーへのディレクトリシンボリックリンクを貼ってください。
+
+### 注意
+
+- `frontend\src\lib\get-address.js` と `backend\table-maintenance\lib\get-address.js`
+- `frontend\src\lib\ja-kousei.js` と `backend\table-maintenance\lib\ja-kousei.js`
+
+は全く同じファイルなので注意！！
+
+シンボリックリンクでは上手くビルドされなかった。
