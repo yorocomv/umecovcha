@@ -138,8 +138,8 @@ const CreateCustomer = () => {
     };
 
     return (
-        <VStack padding={4} className={cs.lightSpot}>
-            <Container width='4xl'>
+        <VStack p={4}>
+            <Container width='4xl' p={4} borderRadius={4} className={cs.lightSpot}>
                 <FormProvider {...useFormMethods}>
                     <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)} autoComplete="off">
                         <CustomerInputs invoices={invoices} />
