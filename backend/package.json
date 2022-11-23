@@ -11,9 +11,12 @@
     "s_uninstall": "node Register-for-the-service/svc-uninstall.cjs"
   },
   "dependencies": {
+    "@geolonia/normalize-japanese-addresses": "^2.7.2",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "express": "^4.18.2",
+    "jaconv": "^1.0.4",
     "pg": "^8.8.0"
   },
   "devDependencies": {
