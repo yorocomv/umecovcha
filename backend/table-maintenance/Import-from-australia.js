@@ -21,7 +21,7 @@ import SHA1 from 'crypto-js/sha1';
 
     try {
         for (let i = 0; i < lastRow; i++) {
-            let { zip_code, name1, name2, address1, address2, tel } = (await db.query('SELECT * FROM australia ORDER BY code ASC LIMIT $1 OFFSET $2', [1, i])).rows[0];
+            let { zip_code, name1, name2, address1, address2, tel } = (await db.query('SELECT * FROM australia ORDER BY code ASC LIMIT $1 OFFSET $2;', [1, i])).rows[0];
             /* 引用符やプライム記号はシングルクォーテーションに強制変換してからエスケープ
                pg-protocol のエラー対策 */
             name1 = name1.replace( /['′‵ʹ’]/g, "''" );
@@ -30,17 +30,30 @@ import SHA1 from 'crypto-js/sha1';
             const { pref, city, town, addr, lat, lng, level } = await normalize(address);
             /* 2: 市区町村まで判別できた */
             if (level > 1) {
-                const nayose__Addr = pref + city + town + addr;
-                const address_sha1 = SHA1(nayose__Addr).toString();
+                const normalizedAddress = pref + city + town + addr;
+                const address_sha1 = SHA1(normalizedAddress).toString();
                 let sha1_same_val = 0;
                 const max = (await db.query(`SELECT MAX(sha1_same_val) AS max FROM customers WHERE address_sha1 = '${address_sha1}';`)).rows[0]['max'];
                 if (max !== null && max >= 0) sha1_same_val = max + 1;
-                let searched_name = name1 + name2;
-                searched_name = jaKousei(searched_name);
-                await db.query(`INSERT INTO customers
-                    (tel,      zip_code,      address1,      address2,      name1,      name2,      searched_name,      address_sha1,      sha1_same_val,  nja_pref,  nja_city,  nja_town,  nja_addr,  nja_lat,  nja_lng,  nja_level)
+                const searched_name = jaKousei(name1 + name2);
+                let valueList = [];
+                {
+                    const nja_pref = pref;
+                    const nja_city = city;
+                    const nja_town = town;
+                    const nja_addr = addr;
+                    const nja_lat = lat;
+                    const nja_lng = lng;
+                    const nja_level = level;
+                    /* INSERT 文の列名部分をコピペ */
+                    valueList = [tel, zip_code, address1, address2, name1, name2, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level];
+                }
+                await db.query(`INSERT INTO customers(
+                        tel, zip_code, address1, address2, name1, name2, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level
+                    )
                     VALUES
-                    ('${tel}', '${zip_code}', '${address1}', '${address2}', '${name1}', '${name2}', '${searched_name}', '${address_sha1}', ${sha1_same_val}, '${pref}', '${city}', '${town}', '${addr}', '${lat}', '${lng}', ${level});`);
+                    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);`,
+                    valueList);
                 console.log(i);
             }
         }
