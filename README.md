@@ -14,7 +14,7 @@
  `frontend\src\routes\_local-uri.js.hinagata` をコピーして `frontend\src\routes\_local-uri.js` を作成し、適宜設定してください。
 - また、開発中は `frontend\public\jp\api` に同じデータを置いてください。
 
-### CSV ファイルの置き場所を設定
+### TSV ファイルの置き場所を設定
 
 - `backend\__SYMBOLICLINK__` に本番サーバーへのディレクトリシンボリックリンクを貼ってください。
 

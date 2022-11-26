@@ -27,7 +27,7 @@ app.get('/customers/:id', selectOne.getCustomerById);
 app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
-app.post('/outputcsv', io.writeOutCustomerDetails);
+app.post('/outputfile', io.writeOutCustomerDetails);
 
 app.put('/customers/:id', update.updateCustomerById);
 

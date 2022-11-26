@@ -18,13 +18,13 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
     const [hasDeletable, setHasDeletable] = useState(false);
 
     useEffect(() => {
-        const outputcsv = async () => {
+        const outputfile = async () => {
             if (customer.id) {
-                const res = (await axiosInst.post('/outputcsv', customer)).data;
+                const res = (await axiosInst.post('/outputfile', customer)).data;
                 console.log(res);
             }
         };
-        outputcsv();
+        outputfile();
     }, [sameAddressCustomersLength]);
 
     const handleChange = () => setHasDeletable(!hasDeletable);
