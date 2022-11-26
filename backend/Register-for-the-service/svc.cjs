@@ -6,7 +6,7 @@ const ENV = require('./svc-env.cjs');
 const svc = new Service({
   name:'__REST_API_SERVER__',
   description: 'The nodejs.org REST API web server.',
-  script: path.join(__dirname, '../dist/index.cjs'),
+  script: path.join(__dirname, '../dist/index-copy.cjs'),
   env: ENV
 });
 

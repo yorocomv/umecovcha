@@ -7,7 +7,7 @@
   "scripts": {
     "build": "rollup -c",
     "start": "npm run build && nodemon dist/index.cjs",
-    "s_install": "node Register-for-the-service/svc-install.cjs",
+    "s_install": "node -e \"require('fs').copyFileSync('dist/index.cjs', 'dist/index-copy.cjs')\" && node Register-for-the-service/svc-install.cjs",
     "s_uninstall": "node Register-for-the-service/svc-uninstall.cjs"
   },
   "dependencies": {
