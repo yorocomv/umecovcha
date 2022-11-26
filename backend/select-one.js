@@ -6,7 +6,11 @@ export const getCustomerById = async (req, res, next) => {
     const db = await pool.connect();
     try {
         const rows = (await db.query('SELECT * FROM customers WHERE id = $1;', [id])).rows;
-        return res.status(200).json(rows);
+        if (rows !== null && rows.length === 1) {
+            return res.status(200).json(rows);
+        } else {
+            return res.status(404).json('Customer does not exist.');
+        }
     } catch (err) {
         next(err.stack);
     } finally {

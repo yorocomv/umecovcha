@@ -33,7 +33,7 @@ const CheckCustomer = () => {
     getCustomer();
   }, [id]);
 
-  if (!customer) {
+  if (!customer.id) {
     return (
       <div className={cs.warningText}>指定されたデータは登録されていません 🥵</div>
     );
