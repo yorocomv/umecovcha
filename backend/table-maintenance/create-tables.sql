@@ -63,7 +63,7 @@ CREATE TABLE
         code VARCHAR(14) PRIMARY KEY,
         name1 VARCHAR(40),
         name2 VARCHAR(40),
-        zip_code VARCHAR(7),
+        zip_code VARCHAR(8),
         address1 VARCHAR(36),
         address2 VARCHAR(36),
         address3 VARCHAR(36),
