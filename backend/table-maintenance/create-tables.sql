@@ -11,13 +11,7 @@ CREATE TABLE
         col9 VARCHAR(100),
         col10 VARCHAR(5),
         col11 CHAR(1),
-        col12 VARCHAR(11)--,
-        -- col13 VARCHAR(11),
-        -- col14 VARCHAR(2),
-        -- col15 VARCHAR(2),
-        -- col16 VARCHAR(2),
-        -- col17 VARCHAR(2),
-        -- col18 VARCHAR(2)
+        col12 VARCHAR(11)
     );
 
 CREATE TABLE

@@ -49,5 +49,37 @@ export default [
       babel({ babelHelpers: 'bundled' }),
       json()
     ]
+  },
+  {
+    input: 'table-maintenance/Import-from-libya.js',
+    output: {
+      file: 'dist/Import-from-libya.cjs',
+      format: 'cjs'
+    },
+    plugins: [
+      nodeResolve(),
+      commonjs({
+        include: 'node_modules/**',
+        ignore: ['pg-native']
+      }),
+      babel({ babelHelpers: 'bundled' }),
+      json()
+    ]
+  },
+  {
+    input: 'table-maintenance/Import-from-tanzania.js',
+    output: {
+      file: 'dist/Import-from-tanzania.cjs',
+      format: 'cjs'
+    },
+    plugins: [
+      nodeResolve(),
+      commonjs({
+        include: 'node_modules/**',
+        ignore: ['pg-native']
+      }),
+      babel({ babelHelpers: 'bundled' }),
+      json()
+    ]
   }
 ];

@@ -13,15 +13,19 @@ import SHA1 from 'crypto-js/sha1';
 
     let lastRow = 0;
     try {
-        lastRow = (await db.query('SELECT COUNT(*) AS ct FROM australia;')).rows[0]['ct'];
+        lastRow = (await db.query('SELECT COUNT(*) AS ct FROM libya;')).rows[0]['ct'];
         console.log(lastRow);
     } catch (err) {
         throw (err);
     }
 
+    let insertedRows = 0;
     try {
         for (let i = 0; i < lastRow; i++) {
-            let { zip_code, name1, name2, address1, address2, tel } = (await db.query('SELECT * FROM australia ORDER BY code ASC LIMIT $1 OFFSET $2;', [1, i])).rows[0];
+            let { tel, zip_code, address1, address2, unknown_name1, unknown_name2, name1 } = (await db.query('SELECT * FROM libya ORDER BY tel, branch_number LIMIT $1 OFFSET $2;', [1, i])).rows[0];
+
+            if (unknown_name1 !== '' || unknown_name2 !== '') continue;
+
             /* 引用符やプライム記号はシングルクォーテーションに強制変換してからエスケープ
                pg-protocol のエラー対策 */
             name1 = name1.replace( /['′‵ʹ’]/g, "''" );
@@ -31,10 +35,16 @@ import SHA1 from 'crypto-js/sha1';
             if (level > 1) {
                 const normalizedAddress = pref + city + town + addr;
                 const address_sha1 = SHA1(normalizedAddress).toString();
+
+                /* 既に存在すれば追加しない */
+                const subscriberNumber = tel.slice(-4);
+                const existRows = (await db.query(`SELECT COUNT(*) AS ct FROM customers WHERE tel LIKE '%${subscriberNumber}' AND address_sha1 = '${address_sha1}';`)).rows[0]['ct'];
+                if (existRows !== null && existRows > 0) continue;
+
                 let sha1_same_val = 0;
                 const max = (await db.query(`SELECT MAX(sha1_same_val) AS max FROM customers WHERE address_sha1 = '${address_sha1}';`)).rows[0]['max'];
                 if (max !== null && max >= 0) sha1_same_val = max + 1;
-                const searched_name = jaKousei(name1 + name2);
+                const searched_name = jaKousei(name1);
                 let valueList = [];
                 {
                     const nja_pref = pref;
@@ -45,14 +55,15 @@ import SHA1 from 'crypto-js/sha1';
                     const nja_lng = lng;
                     const nja_level = level;
                     /* INSERT 文の列名部分をコピペ */
-                    valueList = [tel, zip_code, address1, address2, name1, name2, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level];
+                    valueList = [tel, zip_code, address1, address2, name1, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level];
                 }
                 await db.query(`INSERT INTO customers(
-                        tel, zip_code, address1, address2, name1, name2, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level
+                        tel, zip_code, address1, address2, name1, searched_name, address_sha1, sha1_same_val, nja_pref, nja_city, nja_town, nja_addr, nja_lat, nja_lng, nja_level
                     )
                     VALUES
-                    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);`,
+                    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);`,
                     valueList);
+                insertedRows++;
                 console.log(i);
             }
         }
@@ -60,6 +71,7 @@ import SHA1 from 'crypto-js/sha1';
         throw (err);
     } finally {
         db.release();
+        console.log(`${insertedRows}行追加しました`);
     }
 })().catch(e => console.error(e.stack));
 
