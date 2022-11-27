@@ -13,7 +13,7 @@ const SearchCustomer = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = d => {
-        const searchName = jaKousei(d.search_name);
+        const searchName = jaKousei(d.search_name, true);
         setSearchName(searchName);
     };
 
@@ -34,7 +34,13 @@ const SearchCustomer = () => {
         <>
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
-                    <Input className={cs.fontWeightBold} width="auto" bg="white" {...register("search_name")} />
+                    <Input
+                        placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村の絞り込みが可能です"
+                        className={cs.fontWeightBold}
+                        width="2xl"
+                        bg="white"
+                        {...register("search_name")}
+                    />
                     <Button type="submit" marginLeft={1}>検索</Button>
                 </form>
                 <Link to={'customers/new'} target="_blank">

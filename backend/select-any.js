@@ -27,12 +27,39 @@ export const getCustomers = async (req, res, next) => {
 };
 
 export const searchCustomer = async (req, res, next) => {
-    const name = req.query['search-name'];
+    let name = req.query['search-name'];
 
     const db = await pool.connect();
     try {
-        const rows = (await db.query(`SELECT * FROM customers WHERE searched_name LIKE '%${name}%' ORDER BY updated_at DESC;`)).rows;
-        return res.status(200).json(rows);
+
+        /* 検索条件を組み立て */
+        let optionalCondition = '';
+        if (/^(.+[^\s]*)\s+::([^:]+)$/.test(name)) {
+            name = RegExp.$1;
+            optionalCondition = ` AND nja_city LIKE '${RegExp.$2}%'`;
+        }
+        else if (/^(.+[^\s]*)\s+:([^:]+)$/.test(name)) {
+            name = RegExp.$1;
+            optionalCondition = ` AND nja_pref LIKE '${RegExp.$2}%'`;
+        }
+
+        const nameArr = name.split(/\s+/);
+        let essentialCondition = '';
+        for (let i = 0; i < nameArr.length; i++) {
+            if (i > 0) essentialCondition += ' AND ';
+            essentialCondition += `searched_name LIKE '%${nameArr[i]}%'`;
+        }
+        const searchCondition = essentialCondition + optionalCondition;
+
+        /* 不正クエリをチェック */
+        if (/%%/.test(searchCondition)) return res.status(400).json('400 Bad Request');
+
+        const rows = (await db.query(`SELECT * FROM customers WHERE ${searchCondition} ORDER BY updated_at DESC;`)).rows;
+        if (rows !== null && rows.length > 0) {
+            return res.status(200).json(rows);
+        } else {
+            return res.status(404).json('Customer does not exist.');
+        }
     } catch (err) {
         next(err.stack);
     } finally {

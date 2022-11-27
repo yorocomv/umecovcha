@@ -1,6 +1,6 @@
 import jaconv from 'jaconv';
 
-export function jaKousei( orgName ) {
+export function jaKousei( orgName, isSearchQuery = false ) {
     let name = orgName;
 
     /* https://blog.foresta.me/posts/replace-hyphen-for-js */
@@ -12,7 +12,11 @@ export function jaKousei( orgName ) {
     name = jaconv.normalize(name);
     name = name.trim();
     name = name.toUpperCase();
-    name = name.replace( /\s/gi, "" );
+    if (isSearchQuery) {
+        name = name.replace( /\s+/gi, " " );
+    } else {
+        name = name.replace( /\s/gi, "" );
+    }
     /* 引用符やプライム記号を削除 */
     name = name.replace( /['′‵ʹ’]/g, "" );
     /* グロッサリ => グロサリ */
