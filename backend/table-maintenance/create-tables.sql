@@ -18,7 +18,7 @@ CREATE TABLE
     libya (
         code VARCHAR(20),
         tel VARCHAR(15),
-        branch_number VARCHAR(2),
+        branch_number VARCHAR(2) DEFAULT 0,
         zip_code VARCHAR(8),
         address1 VARCHAR(64),
         address2 VARCHAR(32),

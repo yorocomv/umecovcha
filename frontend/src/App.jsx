@@ -7,7 +7,7 @@ import CreateCustomer from './routes/create-customer';
 const App = () => {
 
   return (
-    <BrowserRouter basename="react/shipping">
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<SearchCustomer />} />
         <Route path="/customers" element={<ListOfCustomers />} />
