@@ -2,4 +2,9 @@ module.exports = [
     {
         name: "PORT",
         value: 80
-    }];
+    },
+    {
+        name: "TSV_OPUT_DIR",
+        value: "C:\\Users\\username\\packagemanager\\persist\\server\\htdocs\\tsv"
+    }
+];

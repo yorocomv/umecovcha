@@ -15,7 +15,13 @@ export const writeOutCustomerDetails = async (req, res, next) => {
         name1 + '\t' + name1 + name2;
 
     try {
-        await fs.writeFile('./__SYMBOLICLINK__/Selected_Customer_Data.tsv', textData);
+        let tsvOPutPath = '.';
+        if (process.env['TSV_OPUT_DIR']) {
+            tsvOPutPath = process.env['TSV_OPUT_DIR'] + '\\Selected_Customer_Data.tsv';
+        } else if (process.env['USERPROFILE']) {
+            tsvOPutPath = process.env['USERPROFILE'] + '\\Desktop\\Selected_Customer_Data.tsv';
+        }
+        await fs.writeFile(tsvOPutPath, textData);
         console.log('  -- TSV 作成    : io.js');
         return res.status(201).send('  -- TSV 作成    : io.js');
     } catch (err) {
