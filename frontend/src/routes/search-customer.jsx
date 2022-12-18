@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, Input, Button, VStack, Text, Stack } from '@chakra-ui/react';
+import { Flex, Input, Button, VStack, Text, Stack, Badge } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
@@ -23,6 +23,9 @@ const SearchCustomer = () => {
                 const res = await axiosInst.get(`/?search-name=${searchName}`);
                 setCustomers(res.data);
             } catch (err) {
+                if (err.response && err.response.status === 404) {
+                    setCustomers([]);
+                }
                 console.error(err);
             }
         };
@@ -36,9 +39,11 @@ const SearchCustomer = () => {
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
                     <Input
                         placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村の絞り込みが可能です"
+                        title="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村の絞り込みが可能です"
                         className={cs.fontWeightBold}
                         width="2xl"
                         bg="white"
+                        autoFocus={true}
                         {...register("search_name")}
                     />
                     <Button type="submit" marginLeft={1}>検索</Button>
@@ -48,6 +53,7 @@ const SearchCustomer = () => {
                 </Link>
             </Flex>
             <VStack padding={4}>
+                <Badge colorScheme={ customers.length ? 'green' : 'red' }>{`${customers.length} hit(s)`}</Badge>
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
                         <Flex className={cs.fontWeightBold} borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>

@@ -21,6 +21,7 @@ const CustomerInputs = ({ invoices }) => {
                 <Input
                     id='tel'
                     placeholder='電話番号'
+                    autoFocus={true}
                     {...register('tel')}
                     width='2xs'
                 />

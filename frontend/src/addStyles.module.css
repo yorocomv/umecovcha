@@ -25,3 +25,14 @@
     color: #0a1612;
     font-weight: bold;
 }
+.reppStripe {
+    height: 100vh;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #f6ba52 0px,#f6ba52 80px,
+        #ffd180 80px,#ffd180 85px,
+        #f6ba52 85px,#f6ba52 105px,
+        #ffd180 105px,#ffd180 110px,
+        #f6ba52 110px,#f6ba52 150px
+    );
+}

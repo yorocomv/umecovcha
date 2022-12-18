@@ -45,7 +45,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
                     <Text fontWeight='bold' color='orange.400' marginLeft={4}>編集</Text>
                 </Link>
             </Flex>
-            <VStack padding={4} >
+            <VStack padding={4} className={cs.reppStripe} >
                 <Stack className={cs.fontWeightBold} padding={1}>
                     <Flex>
                         <Text>☎ </Text>

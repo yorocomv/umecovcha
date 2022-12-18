@@ -15,10 +15,10 @@ export const writeOutCustomerDetails = async (req, res, next) => {
         name1 + '\t' + name1 + name2;
 
     try {
-        let tsvOPutPath = '.';
+        let tsvOPutPath = './__SYMBOLICLINK__/Selected_Customer_Data.tsv';
         if (process.env['TSV_OPUT_DIR']) {
             tsvOPutPath = process.env['TSV_OPUT_DIR'] + '\\Selected_Customer_Data.tsv';
-        } else if (process.env['USERPROFILE']) {
+        } else if (process.env['USERPROFILE'] && /^C:\\Users/.test(process.env['USERPROFILE'])) {
             tsvOPutPath = process.env['USERPROFILE'] + '\\Desktop\\Selected_Customer_Data.tsv';
         }
         await fs.writeFile(tsvOPutPath, textData);

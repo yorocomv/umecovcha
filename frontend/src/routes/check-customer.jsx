@@ -44,11 +44,15 @@ const CheckCustomer = () => {
       setContinue={setContinue}
       isContinue={isContinue}
     />);
+  } else if (customer.id) {
+    return (<SelectedCustomer
+      customer={customer}
+      sameAddressCustomersLength={sameAddressCustomers.length}
+    />);
   }
-  return (<SelectedCustomer
-    customer={customer}
-    sameAddressCustomersLength={sameAddressCustomers.length}
-  />);
+  return (
+    <div>読み込み中・・・</div>
+  );
 };
 
 export default CheckCustomer;
