@@ -60,7 +60,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
                             <Text>{customer.address3}</Text>
                         </Stack>
                     </Flex>
-                    <Text>{customer.name1}</Text>
+                    <Text>{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                     <Text>{customer.name2}</Text>
                 </Stack>
             </VStack >

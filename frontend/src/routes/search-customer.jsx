@@ -38,10 +38,10 @@ const SearchCustomer = () => {
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
                     <Input
-                        placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村の絞り込みが可能です"
-                        title="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村の絞り込みが可能です"
+                        placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村 の絞り込み"
+                        title="スペース区切りのアンド検索に加えて、末尾に&#10;：都道府県　or　：：市区町村 の絞り込み検索が可能です"
                         className={cs.fontWeightBold}
-                        width="2xl"
+                        width="xl"
                         bg="white"
                         autoFocus={true}
                         {...register("search_name")}
@@ -58,7 +58,7 @@ const SearchCustomer = () => {
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
                         <Flex className={cs.fontWeightBold} borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
                             <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
-                                <Text>{customer.name1}</Text>
+                                <Text>{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                                 <Text>{customer.name2}</Text>
                             </Stack>
                             <Stack padding={1}>
