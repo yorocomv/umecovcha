@@ -25,6 +25,10 @@
     color: #0a1612;
     font-weight: bold;
 }
+.lightSpot input::placeholder {
+    font-weight: normal;
+    font-size: 0.8rem;
+}
 .reppStripe {
     height: 100vh;
     background-image: repeating-linear-gradient(
