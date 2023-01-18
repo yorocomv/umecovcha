@@ -22,8 +22,7 @@ export const writeOutCustomerDetails = async (req, res, next) => {
             tsvOPutPath = process.env['USERPROFILE'] + '\\Desktop\\Selected_Customer_Data.tsv';
         }
         await fs.writeFile(tsvOPutPath, textData);
-        console.log('  -- TSV 作成    : io.js');
-        return res.status(201).send('  -- TSV 作成    : io.js');
+        return res.status(201).send(Date.now() + '  -- TSV 作成    : io.js');
     } catch (err) {
         next(err.stack);
     }

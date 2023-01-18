@@ -44,7 +44,7 @@ const CheckCustomer = () => {
       setContinue={setContinue}
       isContinue={isContinue}
     />);
-  } else if (customer.id) {
+  } else if ( sameAddressCustomers.length === 1 || isContinue === true ) {
     return (<SelectedCustomer
       customer={customer}
       sameAddressCustomersLength={sameAddressCustomers.length}
