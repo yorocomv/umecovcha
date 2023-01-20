@@ -11,6 +11,9 @@ const theme = extendTheme({
         color: '#0e0e0e',
         backgroundColor: '#dcd0c0',
       },
+      mark: {
+        backgroundColor: '#ff6',
+      },
     },
   },
 });

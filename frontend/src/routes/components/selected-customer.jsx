@@ -60,8 +60,8 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
                             <Text>{customer.address3}</Text>
                         </Stack>
                     </Flex>
-                    <Text>{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
-                    <Text>{customer.name2}</Text>
+                    <Text fontSize='2xl' as="mark">{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
+                    <Text fontSize='2xl'>{customer.name2}</Text>
                 </Stack>
             </VStack >
             <HStack className={cs.deleteButton}>
