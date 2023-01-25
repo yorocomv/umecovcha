@@ -18,7 +18,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
     const [hasDeletable, setHasDeletable] = useState(false);
 
     let zip_code_hyphen = customer.zip_code;
-    if (/^[0-9]{7}$/) {
+    if (/^[0-9]{7}$/.test(zip_code_hyphen)) {
         zip_code_hyphen = zip_code_hyphen.slice(0, 3) + '-' + zip_code_hyphen.slice(3);
     }
 
