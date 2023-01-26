@@ -141,14 +141,15 @@ const CreateCustomer = () => {
         <VStack p={4}>
             <Container width='4xl' p={4} borderRadius={4} className={cs.lightSpot}>
                 <FormProvider {...useFormMethods}>
-                    <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)} autoComplete="off">
+                    <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)} autoComplete="off" className='h-adr'>
+                        <span id={cs.pCountryName} className='p-country-name'>Japan</span>
                         <CustomerInputs invoices={invoices} />
 
                         <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                            { id ? '修正' : '登録' }
+                            {id ? '修正' : '登録'}
                         </Button>
                         <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>
-                            { id ? 'リセット' : 'クリア' }
+                            {id ? 'リセット' : 'クリア'}
                         </Button>
                     </form>
                 </FormProvider>

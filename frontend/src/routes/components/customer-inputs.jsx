@@ -37,6 +37,7 @@ const CustomerInputs = ({ invoices }) => {
                     placeholder='郵便番号'
                     {...register('zipCode')}
                     width='2xs'
+                    className='p-postal-code'
                 />
                 <FormErrorMessage>
                     {errors.zipCode && errors.zipCode.message}
@@ -49,6 +50,7 @@ const CustomerInputs = ({ invoices }) => {
                     id='address1'
                     placeholder='住所1'
                     {...register('address1')}
+                    className='p-region p-locality p-street-address p-extended-address'
                 />
                 <FormErrorMessage>
                     {errors.address1 && errors.address1.message}

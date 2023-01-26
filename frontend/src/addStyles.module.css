@@ -1,11 +1,17 @@
+#pCountryName {
+    display: none;
+}
+
 .flexForm {
     display: flex;
 }
+
 .deleteButton {
     position: fixed;
     bottom: 30px;
     right: 30px;
 }
+
 .warningText {
     font-size: x-large;
     font-weight: 900;
@@ -14,29 +20,33 @@
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
 }
+
 .fontWeightBold {
     font-weight: bold;
 }
+
 .lightSpot {
     color: #49274a;
     background-color: #f8eee7;
 }
-.lightSpot input, .lightSpot select {
+
+.lightSpot input,
+.lightSpot select {
     color: #0a1612;
     font-weight: bold;
 }
+
 .lightSpot input::placeholder {
     font-weight: normal;
     font-size: 0.8rem;
 }
+
 .reppStripe {
     height: 100vh;
-    background-image: repeating-linear-gradient(
-        -45deg,
-        #f6ba52 0px,#f6ba52 80px,
-        #ffd180 80px,#ffd180 85px,
-        #f6ba52 85px,#f6ba52 105px,
-        #ffd180 105px,#ffd180 110px,
-        #f6ba52 110px,#f6ba52 150px
-    );
+    background-image: repeating-linear-gradient(-45deg,
+            #f6ba52 0px, #f6ba52 80px,
+            #ffd180 80px, #ffd180 85px,
+            #f6ba52 85px, #f6ba52 105px,
+            #ffd180 105px, #ffd180 110px,
+            #f6ba52 110px, #f6ba52 150px);
 }
