@@ -72,6 +72,10 @@ const CreateCustomer = () => {
         };
         fetchInvoices();
         if (id) fetchCustomerObj();
+
+        // https://github.com/yubinbango/yubinbango
+        /* Chrome で効かない ワークアラウンド */
+        new YubinBango.MicroformatDom();
     }, []);
 
     useEffect(() => {
