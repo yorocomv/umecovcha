@@ -9,12 +9,14 @@ import { axiosInst } from './_axios-instance';
 
 const SearchCustomer = () => {
     const [searchName, setSearchName] = useState(null);
+    const [searchToggle, setSearchToggle] = useState(false);
     const [customers, setCustomers] = useState([]);
     const { register, handleSubmit } = useForm();
 
     const onSubmit = d => {
         const searchName = jaKousei(d.search_name, true);
         setSearchName(searchName);
+        setSearchToggle(!searchToggle);
     };
 
     useEffect(() => {
@@ -31,7 +33,7 @@ const SearchCustomer = () => {
         };
         if (!searchName) return;
         getCustomers();
-    }, [searchName]);
+    }, [searchName, searchToggle]);
 
     return (
         <>
