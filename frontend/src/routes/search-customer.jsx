@@ -59,7 +59,7 @@ const SearchCustomer = () => {
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
                         <Flex className={cs.fontWeightBold} borderWidth='1px' borderColor='blackAlpha.500' borderRadius='md' padding={1}>
-                            <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
+                            <Stack title={customer.searched_name} padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
                                 <Text>{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                                 <Text>{customer.name2}</Text>
                             </Stack>
