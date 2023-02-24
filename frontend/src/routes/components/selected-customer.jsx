@@ -12,7 +12,7 @@ import {
 import { axiosInst } from '../_axios-instance';
 import cs from '../../addStyles.module.css';
 
-const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
+const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
     const navigate = useNavigate();
 
     const [hasDeletable, setHasDeletable] = useState(false);
@@ -66,6 +66,9 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength }) => {
                     <Text>{customer.address3}</Text>
                     <Text fontSize='2xl' as="mark">{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                     <Text fontSize='2xl'>{customer.name2}</Text>
+                    {notes.map((note) => (
+                        <Text key={note.serial_number}>{note.body}</Text>
+                    ))}
                 </Stack>
             </VStack>
             <HStack className={cs.deleteButton}>

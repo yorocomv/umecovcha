@@ -106,3 +106,15 @@ CREATE TABLE
         UNIQUE(address_sha1, sha1_same_val),
         FOREIGN KEY(invoice_id) REFERENCES invoices(id)
     );
+
+CREATE TABLE
+    notes (
+        customer_id INTEGER,
+        serial_number SMALLINT,
+        body VARCHAR(255),
+        created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),
+        PRIMARY KEY(customer_id, serial_number),
+        FOREIGN KEY(customer_id) REFERENCES customers(id)
+    );
+    

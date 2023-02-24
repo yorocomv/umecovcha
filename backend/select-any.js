@@ -96,3 +96,18 @@ export const getInvoices = async (req, res, next) => {
     }
     pool.end();
 };
+
+export const getNotesById = async (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
+
+    const db = await pool.connect();
+    try {
+        const rows = (await db.query('SELECT * FROM notes WHERE customer_id = $1 ORDER BY serial_number;', [id])).rows;
+        return res.status(200).json(rows);
+    } catch (err) {
+        next(err.stack);
+    } finally {
+        db.release();
+    }
+    pool.end();
+};

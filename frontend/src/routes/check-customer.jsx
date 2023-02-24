@@ -8,6 +8,7 @@ import cs from '../addStyles.module.css';
 const CheckCustomer = () => {
   const [customer, setCustomer] = useState({});
   const [sameAddressCustomers, setSameAddressCustomers] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [isContinue, setIsContinue] = useState(false);
 
   const { id } = useParams();
@@ -22,6 +23,8 @@ const CheckCustomer = () => {
         const addrSha1 = resCustomer.data[0].address_sha1;
         const resSameAddressCustomers = await axiosInst.get(`/sameaddress?address-sha1=${addrSha1}`);
         setSameAddressCustomers(resSameAddressCustomers.data);
+        const resNotes = await axiosInst.get(`/notes/${id}`);
+        setNotes(resNotes.data);
         /* CreateCustomer から飛んできた時の目印を探す */
         if (searchParams.get('nowcreated') === 'true') {
           setIsContinue(true);
@@ -48,6 +51,7 @@ const CheckCustomer = () => {
     return (<SelectedCustomer
       customer={customer}
       sameAddressCustomersLength={sameAddressCustomers.length}
+      notes={notes}
     />);
   }
   return (
