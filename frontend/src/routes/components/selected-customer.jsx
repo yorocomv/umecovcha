@@ -8,7 +8,12 @@ import {
     Button,
     Checkbox,
     HStack,
+    List,
+    ListItem,
+    ListIcon,
+    Divider,
 } from '@chakra-ui/react';
+import { BellIcon } from '@chakra-ui/icons';
 import { axiosInst } from '../_axios-instance';
 import cs from '../../addStyles.module.css';
 
@@ -66,9 +71,17 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
                     <Text>{customer.address3}</Text>
                     <Text fontSize='2xl' as="mark">{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                     <Text fontSize='2xl'>{customer.name2}</Text>
-                    {notes.map((note) => (
-                        <Text key={note.serial_number}>{note.body}</Text>
-                    ))}
+                    {notes.length && <>
+                        <Divider borderColor='darkgoldenrod' paddingTop={3} />
+                        <List spacing={3}>
+                            {notes.map((note) => (
+                                <ListItem color='darkred' boxShadow='xs' key={note.serial_number}>
+                                    <ListIcon as={BellIcon} color='darkgoldenrod' />
+                                    {note.body}
+                                </ListItem>
+                            ))}
+                        </List>
+                    </>}
                 </Stack>
             </VStack>
             <HStack className={cs.deleteButton}>
