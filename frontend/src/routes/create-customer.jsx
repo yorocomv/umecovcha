@@ -39,6 +39,7 @@ const CreateCustomer = () => {
     const navigate = useNavigate();
 
     const useFormMethods = useForm({
+        /* バリデーショントリガ => onChange 及び フォーカスを失った時 */
         mode: 'all',
         resolver: yupResolver(yupSchema),
     });
