@@ -3,6 +3,7 @@ import SearchCustomer from './routes/search-customer';
 import CheckCustomer from "./routes/check-customer";
 import ListOfCustomers from './routes/list-of-customers';
 import CreateCustomer from './routes/create-customer';
+import RecordNote from './routes/record-note';
 
 const App = () => {
 
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/customers/:id" element={<CheckCustomer />} />
         <Route path="/customers/new" element={<CreateCustomer />} />
         <Route path="/customers/:id/edit" element={<CreateCustomer />} />
+        <Route path="recordnote/:id" element={<RecordNote />} />
       </Routes>
     </BrowserRouter>
   );
