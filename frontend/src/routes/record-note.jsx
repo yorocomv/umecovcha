@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, FormControl, FormLabel, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Container, FormControl, FormLabel, Select, Text, Textarea, VStack } from '@chakra-ui/react';
 import cs from '../addStyles.module.css';
 import { useParams } from 'react-router-dom';
 import ListOfNotes from './components/list-of-notes';
@@ -35,6 +35,18 @@ const RecordNote = () => {
             {notes.length && <ListOfNotes notes={notes} />}
             <Container width='4xl' p={4} borderRadius={4} className={cs.lightSpot}>
                 <form>
+                    <FormLabel htmlFor='serial_num'>連番</FormLabel>
+                    <Select width='24' defaultValue={notes.length + 1}>
+                        {notes.map((_, i) => (
+                            <option
+                                key={i + 1}
+                                value={i + 1}
+                            >
+                                {i + 1}
+                            </option>
+                        ))}
+                        <option value={notes.length + 1}>{notes.length + 1}</option>
+                    </Select>
                     <FormControl>
                         <FormLabel htmlFor='note'>留意事項！ (残り {noteLength} 文字)</FormLabel>
                         <Textarea onChange={handleChange} id='note' autoFocus={true} height='3xs' />
