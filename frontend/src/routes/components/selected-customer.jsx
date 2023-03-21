@@ -12,6 +12,7 @@ import {
 import ListOfNotes from './list-of-notes';
 import { axiosInst } from '../_axios-instance';
 import cs from '../../addStyles.module.css';
+import { SmallAddIcon } from '@chakra-ui/icons';
 
 const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
                         <Text>{customer.tel}</Text>
                     </Flex>
                     <Flex>
-                        <Text paddingRight={1}>〠</Text>
+                        <Text paddingRight={1}>📮〠</Text>
                         <Text>{zip_code_hyphen}</Text>
                     </Flex>
                     <Text>{customer.address1}</Text>
@@ -69,6 +70,15 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
                     <Text fontSize='2xl'>{customer.name2}</Text>
                     {notes.length && <ListOfNotes notes={notes} />}
                 </Stack>
+                <VStack>
+                    <Button
+                        onClick={() => navigate(`/recordnote/${customer.id}`)}
+                        rightIcon={<SmallAddIcon />}
+                        h='8' w='14'
+                    >
+                        ✍
+                    </Button>
+                </VStack>
             </VStack>
             <HStack className={cs.deleteButton}>
                 <Button onClick={handleDelete} disabled={!hasDeletable}>このレコードを削除</Button>

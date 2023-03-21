@@ -30,3 +30,32 @@ export const createCustomer = async (req, res, next) => {
     }
     pool.end();
 };
+
+export const takeNote = async (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
+    const { serialNum, note } = req.body;
+
+    const db = await pool.connect();
+    try {
+        let valueList = [];
+        {
+            const customer_id = id;
+            const serial_number = serialNum;
+            const body = note;
+            /* INSERT 文の列名部分をコピペ */
+            valueList = [customer_id, serial_number, body];
+        }
+        const newRow = (await db.query(`INSERT INTO notes (
+                customer_id, serial_number, body
+            )
+            VALUES ($1 , $2, $3)
+            RETURNING *;`,
+            valueList)).rows[0];
+            return res.status(201).send(`${JSON.stringify(newRow)}`);
+    } catch (err) {
+        next(err.stack);
+    } finally {
+        db.release();
+    }
+    pool.end();
+};

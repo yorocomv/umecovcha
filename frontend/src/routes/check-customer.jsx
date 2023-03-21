@@ -25,7 +25,7 @@ const CheckCustomer = () => {
         setSameAddressCustomers(resSameAddressCustomers.data);
         const resNotes = await axiosInst.get(`/notes/${id}`);
         setNotes(resNotes.data);
-        /* CreateCustomer から飛んできた時の目印を探す */
+        /* CreateCustomer などの編集系 から飛んできた時の目印を探す */
         if (searchParams.get('nowcreated') === 'true') {
           setIsContinue(true);
         }

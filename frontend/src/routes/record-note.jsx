@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Button, Container, FormControl, FormLabel, Select, Text, Textarea, VStack } from '@chakra-ui/react';
 import cs from '../addStyles.module.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ListOfNotes from './components/list-of-notes';
 import { axiosInst } from './_axios-instance';
 import { useForm } from 'react-hook-form';
 
 const RecordNote = () => {
     const maxLength = 255;
-    const [noteLength, setNoteLength] = useState(maxLength);
+    const [bodyLength, setBodyLength] = useState(maxLength);
     const [customer, setCustomer] = useState({});
     const [notes, setNotes] = useState([]);
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const useFormMethods = useForm();
     const {
         register,
@@ -36,8 +37,25 @@ const RecordNote = () => {
         getCustomer();
     }, []);
 
-    const handleChange = e => { setNoteLength(maxLength - e.target.value.length) };
-    const onSubmit = reg => console.log(reg);
+    useEffect(() => {
+        if (notes.length !== 0) setValue('serialNum', notes.length + 1);
+    }, [notes]);
+
+    const handleChange = e => { setBodyLength(maxLength - e.target.value.length) };
+    const onSubmit = async reg => {
+        try {
+            const res = await axiosInst.post(`/notes/${id}`, reg);
+            console.log(res.data);
+            reset();
+            navigate(`/customers/${res.data.customer_id}?nowcreated=true`);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    const handleReset = () => {
+        reset();
+        if (notes.length !== 0) setValue('serialNum', notes.length + 1);
+    };
     return (
         <VStack p={4}>
             <Text fontSize='lg'>{customer.name1}</Text>
@@ -46,19 +64,21 @@ const RecordNote = () => {
             <Container width='4xl' p={4} borderRadius={4} className={cs.lightSpot}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormLabel htmlFor='serial_num'>表示順</FormLabel>
-                    <Select width='24' defaultValue={notes.length + 1}>
+                    <Select
+                        id='serial_num'
+                        {...register('serialNum')}
+                        width='24'
+                    >
                         {(() => {
                             const arr = [];
-                            for (let i = 1; i <= notes.length; i++) {
+                            for (let i = 1; i <= notes.length + 1; i++) {
                                 arr.push(<option value={i} key={i}>{i}</option>);
                             }
                             return arr;
                         })()}
-                        {/* 他の option とは別に出力しないと selected にならない */}
-                        <option value={notes.length + 1}>{notes.length + 1}</option>
                     </Select>
                     <FormControl>
-                        <FormLabel htmlFor='note'>留意事項！ (残り {noteLength} 文字)</FormLabel>
+                        <FormLabel htmlFor='note'>留意事項！ (残り {bodyLength} 文字)</FormLabel>
                         <Textarea
                             id='note'
                             {...register('note', {
@@ -72,9 +92,10 @@ const RecordNote = () => {
                             onChange={handleChange}
                             autoFocus={true}
                             height='3xs' />
-                            {errors.note && <Text color='red.500' mt='2' fontSize='sm' lineHeight='normal'>{errors.note.message}</Text>}
+                        {errors.note && <Text color='red.500' mt='2' fontSize='sm' lineHeight='normal'>{errors.note.message}</Text>}
                     </FormControl>
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>登録</Button>
+                    <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>クリア</Button>
                 </form>
             </Container>
         </VStack>

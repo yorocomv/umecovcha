@@ -62,6 +62,7 @@ const CustomerInputs = ({ invoices }) => {
                     id='address2'
                     placeholder='住所2'
                     {...register('address2')}
+                    marginTop='3px'
                 />
                 <FormErrorMessage>
                     {errors.address2 && errors.address2.message}
@@ -73,6 +74,7 @@ const CustomerInputs = ({ invoices }) => {
                     id='address3'
                     placeholder='住所3'
                     {...register('address3')}
+                    marginTop='3px'
                 />
                 <FormErrorMessage>
                     {errors.address3 && errors.address3.message}
@@ -96,6 +98,7 @@ const CustomerInputs = ({ invoices }) => {
                     id='name2'
                     placeholder='名称2'
                     {...register('name2')}
+                    marginTop='3px'
                 />
                 <FormErrorMessage>
                     {errors.name2 && errors.name2.message}

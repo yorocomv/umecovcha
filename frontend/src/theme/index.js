@@ -2,8 +2,8 @@ import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
   fonts: {
-    heading: `'BIZ UDPGothic', sans-serif`,
-    body: `'BIZ UDPGothic', sans-serif`,
+    heading: `'Segoe UI Emoji', 'BIZ UDPGothic', sans-serif`,
+    body: `'Segoe UI Emoji', 'BIZ UDPGothic', sans-serif`,
   },
   styles: {
     global: {

@@ -29,6 +29,7 @@ app.get('/snumbersnotes/:id', selectAny.retSNumArrOfNotes);
 app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
+app.post('/notes/:id', insert.takeNote);
 app.post('/outputfile', io.writeOutCustomerDetails);
 
 app.put('/customers/:id', update.updateCustomerById);

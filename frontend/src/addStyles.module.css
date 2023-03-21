@@ -31,9 +31,13 @@
 }
 
 .lightSpot input,
-.lightSpot select {
+.lightSpot textarea,
+.lightSpot select,
+.lightSpot select option {
     color: #0a1612;
+    background-color: #f5eeee;
     font-weight: bold;
+    border-color: #fefefe;
 }
 
 .lightSpot input::placeholder {
