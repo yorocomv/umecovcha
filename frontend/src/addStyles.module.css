@@ -2,6 +2,19 @@
     display: none;
 }
 
+section.notes {
+    color: #0a1612;
+    background-color: #f5eeee;
+    font-weight: bold;
+    border-width: 1px;
+    border-color: #161616;
+}
+
+p.notes {
+    font-family: 'BIZ UDPMincho';
+    white-space: break-spaces;
+}
+
 .flexForm {
     display: flex;
 }
