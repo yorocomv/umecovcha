@@ -1,15 +1,35 @@
 import { BellIcon } from "@chakra-ui/icons";
-import { Divider, List, ListIcon, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import {
+    Button,
+    Divider,
+    List,
+    ListIcon,
+    ListItem,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text
+} from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cs from '../../addStyles.module.css';
 
-const ListOfNotes = ({ notes }) => {
+const ListOfNotes = ({ customerId, notes }) => {
+    const navigate = useNavigate();
     const strLength = 30;
     // https://zenn.dev/cryptobox/articles/ace08cae85e3a2
     const [selectedNote, setSelectedNote] = useState('');
 
     const onOpenModal = id => setSelectedNote(id);
     const onCloseModal = () => setSelectedNote('');
+    const handleEdit = snum => {
+        setSelectedNote('');
+        navigate(`/recordnote/${customerId}?serialnumber=${snum}`);
+    };
 
     return (
         <>
@@ -33,6 +53,11 @@ const ListOfNotes = ({ notes }) => {
                                 <ModalBody>
                                     <Text className={cs.notes}>{note.body}</Text>
                                 </ModalBody>
+                                <ModalFooter>
+                                    <Button
+                                        onClick={() => handleEdit(note.serial_number)}
+                                        colorScheme='purple'>編集</Button>
+                                </ModalFooter>
                             </ModalContent>
                         </Modal>
                     </ListItem>

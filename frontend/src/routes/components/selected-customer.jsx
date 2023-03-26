@@ -48,9 +48,9 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
 
     return (
         <>
-            <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
+            <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bgColor='purple.700'>
                 <Link to={`/customers/${customer.id}/edit`}>
-                    <Text fontWeight='bold' color='orange.400' marginLeft={4}>編集</Text>
+                    <Text fontWeight='bold' color='white' marginLeft={4}>編集</Text>
                 </Link>
             </Flex>
             <VStack padding={4} className={cs.reppStripe} >
@@ -68,7 +68,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
                     <Text>{customer.address3}</Text>
                     <Text fontSize='2xl' as="mark">{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
                     <Text fontSize='2xl'>{customer.name2}</Text>
-                    {notes.length && <ListOfNotes notes={notes} />}
+                    {notes.length && <ListOfNotes customerId={customer.id} notes={notes} />}
                 </Stack>
                 <VStack>
                     <Button

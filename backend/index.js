@@ -25,7 +25,6 @@ app.get('/sameaddress', selectAny.getSameAddress);
 app.get('/customers', selectAny.getCustomers);
 app.get('/customers/:id', selectOne.getCustomerById);
 app.get('/notes/:id', selectAny.getNotesById);
-app.get('/snumbersnotes/:id', selectAny.retSNumArrOfNotes);
 app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
@@ -33,6 +32,9 @@ app.post('/notes/:id', insert.takeNote);
 app.post('/outputfile', io.writeOutCustomerDetails);
 
 app.put('/customers/:id', update.updateCustomerById);
+app.put('/notes/:id', update.updateNoteBy2Id);
+// 補助( 前処理 )関数
+app.put('/snumbernote/:id', update.updateSerialNumberOfNote);
 
 app.delete('/customers/:id', deleteOne.deleteCustomerById);
 
