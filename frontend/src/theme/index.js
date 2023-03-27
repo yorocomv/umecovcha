@@ -12,7 +12,7 @@ const theme = extendTheme({
         backgroundColor: '#dcd0c0',
       },
       mark: {
-        backgroundColor: '#ff6',
+        background: 'linear-gradient(transparent 15%, #ff6 60%)'
       },
     },
   },
