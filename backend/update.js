@@ -49,7 +49,7 @@ export const updateCustomerById = async (req, res, next) => {
     pool.end();
 };
 
-export const updateSerialNumberOfNote = async (req, res, next) => {
+export const changeRanksOfNotes = async (req, res, next) => {
     const id = parseInt(req.params.id, 10);
     const { oldNum, newNum } = req.body;
 
@@ -57,9 +57,9 @@ export const updateSerialNumberOfNote = async (req, res, next) => {
     try {
         const newRow = (await db.query(`
             UPDATE notes SET
-            serial_number = ${newNum}
+            rank = ${newNum}
             WHERE
-            customer_id = ${id} AND serial_number = ${oldNum}
+            customer_id = ${id} AND rank = ${oldNum}
             RETURNING
                 *;
 
@@ -75,7 +75,7 @@ export const updateSerialNumberOfNote = async (req, res, next) => {
 
 export const updateNoteBy2Id = async (req, res, next) => {
     const id = parseInt(req.params.id, 10);
-    const { serialNum, note } = req.body;
+    const { rank, note } = req.body;
 
     const db = await pool.connect();
     try {
@@ -83,7 +83,7 @@ export const updateNoteBy2Id = async (req, res, next) => {
             UPDATE notes SET
             body = '${note}'
             WHERE
-            customer_id = ${id} AND serial_number = ${serialNum}
+            customer_id = ${id} AND rank = ${rank}
             RETURNING
                 *;
 

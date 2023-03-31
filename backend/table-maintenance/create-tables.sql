@@ -110,11 +110,11 @@ CREATE TABLE
 CREATE TABLE
     notes (
         customer_id INTEGER,
-        serial_number SMALLINT,
+        rank SMALLINT,
         body VARCHAR(255),
         created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),
         updated_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),
-        PRIMARY KEY(customer_id, serial_number),
+        PRIMARY KEY(customer_id, rank),
         FOREIGN KEY(customer_id) REFERENCES customers(id)
     );
     

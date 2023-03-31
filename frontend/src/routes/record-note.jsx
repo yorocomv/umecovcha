@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Container, FormControl, FormLabel, Select, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Button, Checkbox, Container, FormControl, FormLabel, HStack, Select, Text, Textarea, VStack } from '@chakra-ui/react';
 import cs from '../addStyles.module.css';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListOfNotes from './components/list-of-notes';
@@ -12,6 +12,7 @@ const RecordNote = () => {
     const [customer, setCustomer] = useState({});
     const [notes, setNotes] = useState([]);
     const [subscriptsArrayNotes, setSubscriptsArrayNotes] = useState(NaN);
+    const [hasDeletable, setHasDeletable] = useState(false);
 
     const { id } = useParams();
     const [searchParams] = useSearchParams();
@@ -24,7 +25,7 @@ const RecordNote = () => {
         reset,
         formState: { isSubmitting, errors },
     } = useFormMethods;
-    const serialNumberEditing = searchParams.get(('serialnumber')) || '';
+    const editRanker = searchParams.get(('rank')) || '';
 
     useEffect(() => {
         const getCustomer = async () => {
@@ -38,55 +39,58 @@ const RecordNote = () => {
             }
         };
         getCustomer();
-    }, []);
+    }, [editRanker]);
 
     useEffect(() => {
-        if (!!serialNumberEditing) {
+        if (!!editRanker) {
             for (let i = 0; i < notes.length; i++) {
-                if (serialNumberEditing === `${notes[i]['serial_number']}`) {
+                if (editRanker === `${notes[i]['rank']}`) {
                     // 配列の添字を記録して reset() などで利用する
                     setSubscriptsArrayNotes(i);
-                    setValue('serialNum', serialNumberEditing);
+                    setValue('rank', editRanker);
                     setValue('note', notes[i]['body']);
                     setBodyLength(maxLength - notes[i]['body'].length);
                 }
             }
         } else {
-            if (notes.length !== 0) setValue('serialNum', notes.length + 1);
+            reset();
+            if (notes.length !== 0) setValue('rank', notes.length + 1);
+            setBodyLength(maxLength);
         }
-    }, [notes, serialNumberEditing]);
+    }, [notes, editRanker]);
 
     const handleChange = e => { setBodyLength(maxLength - e.target.value.length) };
+    const handleChangeCheckbox = () => setHasDeletable(!hasDeletable);
     const onSubmit = async reg => {
         try {
             let res = {};
-            if (!!serialNumberEditing) {
+            if (!!editRanker) {
                 res = await axiosInst.put(`/notes/${id}`, reg);
             } else {
-                // 新規メモに対して連番が同じか大きい場合更新して場所を空ける
-                // 配列全てをチェック、i を配列の添字にする( 連番より壱小さい )
+                // 新規メモに対して表示順位が同じか大きい場合更新して場所を空ける
+                // 配列全てをチェック、i を配列の添字にする( 表示順位より壱小さい )
                 for (let i = notes.length - 1; i >= 0; i--) {
 
-                    // 現状の連番
-                    const currentSNum = notes[i]['serial_number'];
-                    // あるべき連番
-                    const idealSNum = i + 1;
-                    // 真偽値を兼ねた新しい連番
-                    let newSerialNumber = 0;
+                    // 現状の表示順位
+                    const currentNum = notes[i]['rank'];
+                    // あるべき表示順位
+                    const idealNum = i + 1;
+                    // 真偽値を兼ねた新しい表示順位
+                    let newNumBool = 0;
 
-                    if (currentSNum !== idealSNum) {
-                        newSerialNumber = idealSNum;
+                    if (currentNum !== idealNum) {
+                        newNumBool = idealNum;
                     }
-                    if (idealSNum >= reg.serialNum) {
-                        newSerialNumber = idealSNum + 1;
+                    if (idealNum >= reg.rank) {
+                        newNumBool = idealNum + 1;
                     }
 
-                    if (!!newSerialNumber) {
-                        const serialNumbers = {
-                            oldNum: currentSNum,
-                            newNum: newSerialNumber
+                    if (!!newNumBool) {
+                        const ranks = {
+                            oldNum: currentNum,
+                            newNum: newNumBool
                         };
-                        const resNoteNum = await axiosInst.put(`/snumbernote/${id}`, serialNumbers);
+                        const resNoteNum = await axiosInst.put(`/notes/${id}/ranks`, ranks);
                         console.log(resNoteNum.data);
                     }
                 }
@@ -100,20 +104,30 @@ const RecordNote = () => {
         }
     };
     const handleReset = () => {
-        if (!!serialNumberEditing) {
+        if (!!editRanker) {
             if (subscriptsArrayNotes >= 0) {
                 reset({
-                    serialNum: notes[subscriptsArrayNotes]['serial_number'],
+                    rank: notes[subscriptsArrayNotes]['rank'],
                     note: notes[subscriptsArrayNotes]['body']
                 });
                 setBodyLength(maxLength - notes[subscriptsArrayNotes]['body'].length);
             }
         } else {
             reset();
-            if (notes.length !== 0) setValue('serialNum', notes.length + 1);
+            if (notes.length !== 0) setValue('rank', notes.length + 1);
             setBodyLength(maxLength);
         }
     };
+    const handleDelete = async () => {
+        try {
+            const result = await axiosInst.delete(`/notes/${id}/ranks/${editRanker}`);
+            console.log(result);
+            navigate(`/recordnote/${id}`);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return (
         <VStack p={4}>
             <Text fontSize='lg'>{customer.name1}</Text>
@@ -121,11 +135,11 @@ const RecordNote = () => {
             {notes.length && <ListOfNotes customerId={id} notes={notes} />}
             <Container width='4xl' p={4} borderRadius={4} className={cs.lightSpot}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <FormLabel htmlFor='serial_num'>表示順</FormLabel>
+                    <FormLabel htmlFor='rank'>表示順</FormLabel>
                     <Select
-                        id='serial_num'
-                        {...register('serialNum')}
-                        isDisabled={!!serialNumberEditing}
+                        id='rank'
+                        {...register('rank')}
+                        isDisabled={!!editRanker}
                         width='24'
                     >
                         {(() => {
@@ -154,13 +168,19 @@ const RecordNote = () => {
                         {errors.note && <Text color='red.500' mt='2' fontSize='sm' lineHeight='normal'>{errors.note.message}</Text>}
                     </FormControl>
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                        {!!serialNumberEditing ? '修正' : '登録'}
+                        {!!editRanker ? '修正' : '登録'}
                     </Button>
                     <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>
-                        {!!serialNumberEditing ? 'リセット' : 'クリア'}
+                        {!!editRanker ? 'リセット' : 'クリア'}
                     </Button>
                 </form>
             </Container>
+            {!!editRanker ? (
+                <HStack className={cs.deleteButton}>
+                    <Button onClick={handleDelete} disabled={!hasDeletable}>編集中のメモを削除</Button>
+                    <Checkbox onChange={handleChangeCheckbox} />
+                </HStack>
+            ) : null}
         </VStack>
     );
 };

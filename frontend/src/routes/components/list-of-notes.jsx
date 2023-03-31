@@ -26,9 +26,9 @@ const ListOfNotes = ({ customerId, notes }) => {
 
     const onOpenModal = id => setSelectedNote(id);
     const onCloseModal = () => setSelectedNote('');
-    const handleEdit = snum => {
+    const handleEdit = rank => {
         setSelectedNote('');
-        navigate(`/recordnote/${customerId}?serialnumber=${snum}`);
+        navigate(`/recordnote/${customerId}?rank=${rank}`);
     };
 
     return (
@@ -55,7 +55,7 @@ const ListOfNotes = ({ customerId, notes }) => {
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button
-                                        onClick={() => handleEdit(note.serial_number)}
+                                        onClick={() => handleEdit(note.rank)}
                                         colorScheme='purple'>編集</Button>
                                 </ModalFooter>
                             </ModalContent>
