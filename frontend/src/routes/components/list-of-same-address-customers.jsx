@@ -24,7 +24,7 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
                             {sameAddrCustomer.id === customerId && <Text fontWeight='bold' color='green.400'>✅ 選択中</Text>}
                             <Flex backgroundColor='#E1D7C9' borderWidth='1px' borderColor='whiteAlpha.500' borderRadius='md' padding={1} _hover={{backgroundColor: '#E7DED3'}}>
                                 <Stack padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
-                                    <Text>{sameAddrCustomer.invoice_id === 3 ? '😴 ' : ''}{sameAddrCustomer.name1}</Text>
+                                    <Text>{sameAddrCustomer.invoice_id === 3 ? '😎 ' : ''}{sameAddrCustomer.name1}</Text>
                                     <Text>{sameAddrCustomer.name2}</Text>
                                 </Stack>
                                 <Stack padding={1}>

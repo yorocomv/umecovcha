@@ -49,7 +49,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
 
     return (
         <>
-            <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bgColor='purple.700'>
+            <Flex zIndex='1' width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bgColor='purple.700'>
                 <Link to={`/customers/${customer.id}/edit`}>
                     <Text fontWeight='bold' color='white' marginLeft={4}>編集</Text>
                 </Link>

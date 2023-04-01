@@ -55,12 +55,12 @@ const SearchCustomer = () => {
                 </Link>
             </Flex>
             <VStack padding={4}>
-                <Badge colorScheme={ customers.length ? 'green' : 'red' }>{`${customers.length} hit(s)`}</Badge>
+                <Badge colorScheme={customers.length ? 'green' : 'red'}>{`${customers.length} hit(s)`}</Badge>
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
-                        <Flex className={cs.fontWeightBold} backgroundColor='#E1D7C9' borderWidth='1px' borderColor='whiteAlpha.500' borderRadius='md' padding={1} marginTop='2' _hover={{backgroundColor: '#E7DED3'}}>
+                        <Flex className={cs.fontWeightBold} backgroundColor='#E1D7C9' borderWidth='1px' borderColor='whiteAlpha.500' borderRadius='md' padding={1} marginTop='2' _hover={{ backgroundColor: '#E7DED3' }}>
                             <Stack title={customer.searched_name} padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
-                                <Text>{customer.invoice_id === 3 ? '😴 ' : ''}{customer.name1}</Text>
+                                <Text>{customer.invoice_id === 3 ? '😎 ' : ''}{customer.name1}</Text>
                                 <Text>{customer.name2}</Text>
                             </Stack>
                             <Stack padding={1}>

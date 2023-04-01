@@ -11,7 +11,7 @@ const RecordNote = () => {
     const [bodyLength, setBodyLength] = useState(maxLength);
     const [customer, setCustomer] = useState({});
     const [notes, setNotes] = useState([]);
-    const [subscriptsArrayNotes, setSubscriptsArrayNotes] = useState(NaN);
+    const [noteArrayIndex, setNoteArrayIndex] = useState(NaN);
     const [hasDeletable, setHasDeletable] = useState(false);
 
     const { id } = useParams();
@@ -25,7 +25,7 @@ const RecordNote = () => {
         reset,
         formState: { isSubmitting, errors },
     } = useFormMethods;
-    const editRanker = searchParams.get(('rank')) || '';
+    const editingRanker = searchParams.get(('rank')) || '';
 
     useEffect(() => {
         const getCustomer = async () => {
@@ -39,32 +39,36 @@ const RecordNote = () => {
             }
         };
         getCustomer();
-    }, [editRanker]);
+    }, [editingRanker]);
 
     useEffect(() => {
-        if (!!editRanker) {
+        if (!!editingRanker) {
             for (let i = 0; i < notes.length; i++) {
-                if (editRanker === `${notes[i]['rank']}`) {
+                if (editingRanker === `${notes[i]['rank']}`) {
                     // 配列の添字を記録して reset() などで利用する
-                    setSubscriptsArrayNotes(i);
-                    setValue('rank', editRanker);
+                    setNoteArrayIndex(i);
+                    setValue('rank', editingRanker);
                     setValue('note', notes[i]['body']);
                     setBodyLength(maxLength - notes[i]['body'].length);
+                    setHasDeletable(false);
                 }
             }
         } else {
             reset();
             if (notes.length !== 0) setValue('rank', notes.length + 1);
             setBodyLength(maxLength);
+            setHasDeletable(false);
         }
-    }, [notes, editRanker]);
+    }, [notes, editingRanker]);
 
-    const handleChange = e => { setBodyLength(maxLength - e.target.value.length) };
+    const handleChangeTextarea = e => { setBodyLength(maxLength - e.target.value.length) };
     const handleChangeCheckbox = () => setHasDeletable(!hasDeletable);
     const onSubmit = async reg => {
         try {
             let res = {};
-            if (!!editRanker) {
+            if (!!editingRanker) {
+                // 念のためもう一度 rank を現在値( 変更せず )で上書き
+                reg.rank = editingRanker;
                 res = await axiosInst.put(`/notes/${id}`, reg);
             } else {
                 // 新規メモに対して表示順位が同じか大きい場合更新して場所を空ける
@@ -104,13 +108,13 @@ const RecordNote = () => {
         }
     };
     const handleReset = () => {
-        if (!!editRanker) {
-            if (subscriptsArrayNotes >= 0) {
+        if (!!editingRanker) {
+            if (noteArrayIndex >= 0) {
                 reset({
-                    rank: notes[subscriptsArrayNotes]['rank'],
-                    note: notes[subscriptsArrayNotes]['body']
+                    rank: notes[noteArrayIndex]['rank'],
+                    note: notes[noteArrayIndex]['body']
                 });
-                setBodyLength(maxLength - notes[subscriptsArrayNotes]['body'].length);
+                setBodyLength(maxLength - notes[noteArrayIndex]['body'].length);
             }
         } else {
             reset();
@@ -120,7 +124,7 @@ const RecordNote = () => {
     };
     const handleDelete = async () => {
         try {
-            const result = await axiosInst.delete(`/notes/${id}/ranks/${editRanker}`);
+            const result = await axiosInst.delete(`/notes/${id}/ranks/${editingRanker}`);
             console.log(result);
             navigate(`/recordnote/${id}`);
         } catch (err) {
@@ -139,7 +143,7 @@ const RecordNote = () => {
                     <Select
                         id='rank'
                         {...register('rank')}
-                        isDisabled={!!editRanker}
+                        isDisabled={!!editingRanker}
                         width='24'
                     >
                         {(() => {
@@ -162,20 +166,20 @@ const RecordNote = () => {
                                 }
                             })}
                             /* register よりあとに記述 */
-                            onChange={handleChange}
+                            onChange={handleChangeTextarea}
                             autoFocus={true}
                             height='3xs' />
                         {errors.note && <Text color='red.500' mt='2' fontSize='sm' lineHeight='normal'>{errors.note.message}</Text>}
                     </FormControl>
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                        {!!editRanker ? '修正' : '登録'}
+                        {!!editingRanker ? '修正' : '登録'}
                     </Button>
                     <Button mt={4} colorScheme='orange' onClick={handleReset} marginLeft={1}>
-                        {!!editRanker ? 'リセット' : 'クリア'}
+                        {!!editingRanker ? 'リセット' : 'クリア'}
                     </Button>
                 </form>
             </Container>
-            {!!editRanker ? (
+            {!!editingRanker ? (
                 <HStack className={cs.deleteButton}>
                     <Button onClick={handleDelete} disabled={!hasDeletable}>編集中のメモを削除</Button>
                     <Checkbox onChange={handleChangeCheckbox} />
