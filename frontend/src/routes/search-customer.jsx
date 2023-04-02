@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, Input, Button, VStack, Text, Stack, Badge, Container } from '@chakra-ui/react';
+import { Flex, Input, Button, VStack, Text, Stack, Badge, Container, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
@@ -9,10 +9,17 @@ import { axiosInst } from './_axios-instance';
 
 const SearchCustomer = () => {
     const [searchName, setSearchName] = useState(null);
+    const [searchNameLength, setsearchNameLength] = useState(0);
     const [searchToggle, setSearchToggle] = useState(false);
     const [customers, setCustomers] = useState([]);
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
+    const handleChangeInput = e => { setsearchNameLength(e.target.value.length) };
+    const handleResetInput = () => {
+        reset();
+        setsearchNameLength(0);
+        document.getElementById('customer-search-input').focus();
+    };
     const onSubmit = d => {
         const searchName = jaKousei(d.search_name, true);
         setSearchName(searchName);
@@ -39,16 +46,30 @@ const SearchCustomer = () => {
         <>
             <Flex width="100%" position="sticky" top="0" align="center" justify="center" padding={2} bg="gray.700">
                 <form className={cs.flexForm} onSubmit={handleSubmit(onSubmit)}>
-                    <Input
-                        placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村 の絞り込み"
-                        title="スペース区切りのアンド検索に加えて、末尾に&#10;：都道府県　or　：：市区町村 の絞り込み検索が可能です"
-                        className={cs.fontWeightBold}
-                        width="xl"
-                        bg="white"
-                        autoFocus={true}
-                        {...register("search_name")}
-                    />
-                    <Button type="submit" marginLeft={1}>検索</Button>
+                    <InputGroup width='37rem'>
+                        <Input
+                            placeholder="スペース区切りのアンド検索、末尾に ：都道府県 or ：：市区町村 の絞り込み"
+                            title="スペース区切りのアンド検索に加えて、末尾に&#10;：都道府県　or　：：市区町村 の絞り込み検索が可能です"
+                            id='customer-search-input'
+                            className={cs.fontWeightBold}
+                            width="37rem"
+                            pr="3.5rem"
+                            bg="white"
+                            autoFocus={true}
+                            {...register("search_name")}
+                            /* register よりあとに記述 */
+                            onChange={handleChangeInput}
+                        />
+                        <InputRightElement width='3.5rem'>
+                            <Button
+                                disabled={!searchNameLength}
+                                onClick={handleResetInput}
+                                colorScheme='pink'
+                                size='xs'
+                            >クリア</Button>
+                        </InputRightElement>
+                    </InputGroup>
+                    <Button type='submit' marginLeft={1}>検索</Button>
                 </form>
                 <Link to={'customers/new'} target="_blank">
                     <Text fontWeight="bold" color="green.200" marginLeft={4}>新規登録</Text>
