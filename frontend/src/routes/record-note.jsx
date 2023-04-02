@@ -99,6 +99,8 @@ const RecordNote = () => {
                     }
                 }
                 res = await axiosInst.post(`/notes/${id}`, reg);
+                const resCustomerNotes = await axiosInst.put(`/customers/${id}/notes/${notes.length + 1}`);
+                console.log(resCustomerNotes.data);
             }
             console.log(res.data);
             reset();
@@ -126,6 +128,8 @@ const RecordNote = () => {
         try {
             const result = await axiosInst.delete(`/notes/${id}/ranks/${editingRanker}`);
             console.log(result);
+            const resCustomerNotes = await axiosInst.put(`/customers/${id}/notes/${notes.length - 1}`);
+            console.log(resCustomerNotes.data);
             navigate(`/recordnote/${id}`);
         } catch (err) {
             console.error(err);

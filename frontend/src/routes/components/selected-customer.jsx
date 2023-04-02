@@ -68,7 +68,7 @@ const SelectedCustomer = ({ customer, sameAddressCustomersLength, notes }) => {
                     <Text>{customer.address2}</Text>
                     <Text>{customer.address3}</Text>
                     <Container p='0' m='0'>
-                        <Text fontSize='2xl' as="mark" pr='0.5rem'>{customer.invoice_id === 3 ? '😎 ' : ''}{customer.name1}</Text>
+                        <Text fontSize='2xl' as="mark" pr='0.5rem'>{customer.invoice_id === 3 ? '😩 ' : ''}{customer.name1}</Text>
                     </Container>
                     <Text fontSize='2xl'>{customer.name2}</Text>
                     {notes.length && <ListOfNotes customerId={customer.id} notes={notes} />}

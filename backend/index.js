@@ -33,8 +33,9 @@ app.post('/outputfile', io.writeOutCustomerDetails);
 
 app.put('/customers/:id', update.updateCustomerById);
 app.put('/notes/:id', update.updateNoteBy2Id);
-// 補助( 前処理 )関数
+// 補助( 前後処理 )関数
 app.put('/notes/:id/ranks', update.changeRanksOfNotes);
+app.put('/customers/:id/notes/:count', update.changeNotesOfCustomers);
 
 app.delete('/customers/:id', deleteOne.deleteCustomerById);
 app.delete('/notes/:id/ranks/:num', deleteOne.deleteNoteBy2Id);

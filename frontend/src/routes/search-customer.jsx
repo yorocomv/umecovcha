@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex, Input, Button, VStack, Text, Stack, Badge } from '@chakra-ui/react';
+import { Flex, Input, Button, VStack, Text, Stack, Badge, Container } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import cs from '../addStyles.module.css';
 
@@ -58,17 +58,32 @@ const SearchCustomer = () => {
                 <Badge colorScheme={customers.length ? 'green' : 'red'}>{`${customers.length} hit(s)`}</Badge>
                 {customers.map((customer) => (
                     <Link key={customer.id} to={`customers/${customer.id}`} target="_blank">
-                        <Flex className={cs.fontWeightBold} backgroundColor='#E1D7C9' borderWidth='1px' borderColor='whiteAlpha.500' borderRadius='md' padding={1} marginTop='2' _hover={{ backgroundColor: '#E7DED3' }}>
-                            <Stack title={customer.searched_name} padding={[1, 2, 1, 1]} borderRightWidth='1px' borderColor='blackAlpha.500'>
-                                <Text>{customer.invoice_id === 3 ? '😎 ' : ''}{customer.name1}</Text>
-                                <Text>{customer.name2}</Text>
-                            </Stack>
-                            <Stack padding={1}>
-                                <Text>{customer.address1}</Text>
-                                <Text>{customer.address2}</Text>
-                                <Text>{customer.address3}</Text>
-                            </Stack>
-                        </Flex>
+                        <VStack
+                            className={cs.fontWeightBold}
+                            backgroundColor='#E1D7C9'
+                            borderWidth='1px'
+                            borderColor='whiteAlpha.500'
+                            borderRadius='md'
+                            padding={1}
+                            marginTop='1.4rem'
+                            _hover={{ backgroundColor: '#E7DED3' }}
+                        >
+                            <Flex>
+                                <Stack title={customer.searched_name} pr='3' borderRightWidth='1px' borderColor='#B8B0A4' boxShadow='4px 0 3px -3px #CDC3B7'>
+                                    <Text>{customer.name1}</Text>
+                                    <Text>{customer.name2}</Text>
+                                </Stack>
+                                <Stack pl='3'>
+                                    <Text>{customer.address1}</Text>
+                                    <Text>{customer.address2}</Text>
+                                    <Text>{customer.address3}</Text>
+                                </Stack>
+                            </Flex>
+                            <Container className={cs.viewStatus}>
+                                {customer.invoice_id === 3 ? '😩' : ''}
+                                {customer.notes !== 0 ? '📝' : ''}
+                            </Container>
+                        </VStack>
                     </Link>
                 ))}
             </VStack>

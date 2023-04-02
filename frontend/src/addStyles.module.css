@@ -23,6 +23,13 @@ p.notes {
     white-space: break-spaces;
 }
 
+div.viewStatus {
+    max-width: 100%;
+    margin: 0 !important;
+    padding: 0;
+    text-align: right;
+}
+
 .flexForm {
     display: flex;
 }

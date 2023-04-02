@@ -96,3 +96,27 @@ export const updateNoteBy2Id = async (req, res, next) => {
     }
     pool.end();
 };
+
+export const changeNotesOfCustomers = async (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
+    const count = parseInt(req.params.count, 10);
+
+    const db = await pool.connect();
+    try {
+        const newRow = (await db.query(`
+            UPDATE customers SET
+            notes = ${count}
+            WHERE
+            id = ${id}
+            RETURNING
+                id, name1, notes;
+
+        `)).rows[0];
+        return res.status(200).send(`${JSON.stringify(newRow)}`);
+    } catch (err) {
+        next(err.stack);
+    } finally {
+        db.release();
+    }
+    pool.end();
+};
