@@ -6,6 +6,7 @@ import {
     Input,
     Select,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const CustomerInputs = ({ invoices }) => {
 
@@ -31,7 +32,12 @@ const CustomerInputs = ({ invoices }) => {
             </FormControl>{/* ===== ココマデ ===== */}
 
             <FormControl isInvalid={errors.zipCode}>{/* ----- ヒトマトマリ ----- */}
-                <FormLabel htmlFor='zip_code'>郵便番号</FormLabel>
+                <FormLabel htmlFor='zip_code'>
+                    郵便番号
+                    <a href='https://www.post.japanpost.jp/zipcode/index.html' target='_blank'>
+                        　🔎
+                    </a>
+                </FormLabel>
                 <Input
                     id='zip_code'
                     placeholder='郵便番号'
