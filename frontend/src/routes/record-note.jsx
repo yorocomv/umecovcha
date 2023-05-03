@@ -73,7 +73,8 @@ const RecordNote = () => {
             } else {
                 // 新規メモに対して表示順位が同じか大きい場合更新して場所を空ける
                 // 配列全てをチェック、i を配列の添字にする( 表示順位より壱小さい )
-                for (let i = notes.length - 1; i >= 0; i--) {
+                async function recuFunc(i) {
+                    if (i < 0) return;
 
                     // 現状の表示順位
                     const currentNum = notes[i]['rank'];
@@ -88,16 +89,29 @@ const RecordNote = () => {
                     if (idealNum >= reg.rank) {
                         newNumBool = idealNum + 1;
                     }
+                    // 0 以上で再帰 及び 処理を中断して再帰を進めたか記録
+                    let callMyself = i - 1;
 
                     if (!!newNumBool) {
                         const ranks = {
                             oldNum: currentNum,
                             newNum: newNumBool
                         };
-                        const resNoteNum = await axiosInst.put(`/notes/${id}/ranks`, ranks);
-                        console.log(resNoteNum.data);
+                        if (ranks.oldNum !== ranks.newNum) {
+                            const resNoteExist = await axiosInst.get(`/notes/${id}/ranks/${ranks.newNum}`);
+                            if (resNoteExist.data.length) {
+                                await recuFunc(callMyself);
+                                callMyself = -1;
+                            }
+                            const resNoteNum = await axiosInst.put(`/notes/${id}/ranks`, ranks);
+                            console.log(resNoteNum.data);
+                        }
                     }
+
+                    if (callMyself >= 0) await recuFunc(callMyself);
                 }
+                await recuFunc(notes.length - 1);
+
                 res = await axiosInst.post(`/notes/${id}`, reg);
                 const resCustomerNotes = await axiosInst.put(`/customers/${id}/notes/${notes.length + 1}`);
                 console.log(resCustomerNotes.data);

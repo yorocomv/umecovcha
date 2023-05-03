@@ -25,6 +25,7 @@ app.get('/sameaddress', selectAny.getSameAddress);
 app.get('/customers', selectAny.getCustomers);
 app.get('/customers/:id', selectOne.getCustomerById);
 app.get('/notes/:id', selectAny.getNotesById);
+app.get('/notes/:id/ranks/:num', selectOne.getNoteByPrimaryKey);
 app.get('/invoices', selectAny.getInvoices);
 
 app.post('/customers', insert.createCustomer);
