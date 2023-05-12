@@ -98,11 +98,14 @@ const RecordNote = () => {
                             newNum: newNumBool
                         };
                         if (ranks.oldNum !== ranks.newNum) {
+                            // １つのノートの全てのカラムを返す API を叩く
+                            // が、欲しいのは存在確認
                             const resNoteExist = await axiosInst.get(`/notes/${id}/ranks/${ranks.newNum}`);
                             if (resNoteExist.data.length) {
                                 await recuFunc(callMyself);
                                 callMyself = -1;
                             }
+                            // １つのノートのランクを変更
                             const resNoteNum = await axiosInst.put(`/notes/${id}/ranks`, ranks);
                             console.log(resNoteNum.data);
                         }
@@ -112,7 +115,9 @@ const RecordNote = () => {
                 }
                 await recuFunc(notes.length - 1);
 
+                // １つのノートを新規登録
                 res = await axiosInst.post(`/notes/${id}`, reg);
+                // customers テーブルの対象レコードの総ノート数のカラムを更新
                 const resCustomerNotes = await axiosInst.put(`/customers/${id}/notes/${notes.length + 1}`);
                 console.log(resCustomerNotes.data);
             }
