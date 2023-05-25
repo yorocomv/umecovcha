@@ -36,8 +36,8 @@ const ListOfNotes = ({ customerId, notes }) => {
             <Divider borderColor='darkgoldenrod' paddingTop={3} />
             <List spacing={3}>
                 {notes.map((note, i) => (
-                    <ListItem onClick={() => onOpenModal(i)} cursor='pointer' color='darkred' boxShadow='xs' key={i}>
-                        <ListIcon as={BellIcon} color='darkgoldenrod' />
+                    <ListItem className={cs.notePreview} onClick={() => onOpenModal(i)} cursor='pointer' color='purple.500' boxShadow='xs' key={i}>
+                        <ListIcon as={BellIcon} color='purple.500' />
                         {note.body.slice(0, strLength)}
                         {note.body.length > strLength && ' ...'}
                         <Modal

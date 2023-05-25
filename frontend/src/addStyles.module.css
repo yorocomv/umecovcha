@@ -23,6 +23,11 @@ p.notes {
     white-space: break-spaces;
 }
 
+li.notePreview, li.notePreview > svg {
+    font-family: 'BIZ UDPMincho';
+    filter: drop-shadow(0 -1px 0 #eee);
+}
+
 div.viewStatus {
     max-width: 100%;
     margin: 0 !important;
