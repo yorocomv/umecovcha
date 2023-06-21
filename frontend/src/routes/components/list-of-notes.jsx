@@ -39,7 +39,7 @@ const ListOfNotes = ({ customerId, notes }) => {
                     <ListItem className={cs.notePreview} onClick={() => onOpenModal(i)} cursor='pointer' color='purple.500' boxShadow='xs' key={i}>
                         <ListIcon as={BellIcon} color='purple.500' />
                         {note.body.slice(0, strLength)}
-                        {note.body.length > strLength && ' ...'}
+                        {note.body.length > strLength && <span className={cs.moreNotes}> ...</span>}
                         <Modal
                             isOpen={i === selectedNote}
                             onClose={onCloseModal}

@@ -34,12 +34,13 @@ const ListOfSameAddressCustomers = ({ sameAddressCustomers, customerId, setConti
                                 <Flex>
                                     <Stack pr='3' borderRightWidth='1px' borderColor='#B8B0A4' boxShadow='4px 0 3px -3px #CDC3B7'>
                                         <Text>{sameAddrCustomer.name1}</Text>
-                                        <Text>{sameAddrCustomer.name2}</Text>
+                                        {sameAddrCustomer.name2 ? <Text>{sameAddrCustomer.name2}</Text> : null}
+                                        <Text>☎ {sameAddrCustomer.tel}</Text>
                                     </Stack>
                                     <Stack pl='3'>
                                         <Text>{sameAddrCustomer.address1}</Text>
-                                        <Text>{sameAddrCustomer.address2}</Text>
-                                        <Text>{sameAddrCustomer.address3}</Text>
+                                        {sameAddrCustomer.address2 ? <Text>{sameAddrCustomer.address2}</Text> : null}
+                                        {sameAddrCustomer.address3 ? <Text>{sameAddrCustomer.address3}</Text> : null}
                                     </Stack>
                                 </Flex>
                                 <Container className={cs.viewStatus}>

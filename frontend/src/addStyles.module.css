@@ -28,6 +28,13 @@ li.notePreview, li.notePreview > svg {
     filter: drop-shadow(0 -1px 0 #eee);
 }
 
+span.moreNotes {
+    font-size: 200%;
+    line-height: 50%;
+    color: #f0c;
+    filter: drop-shadow(0 -1px 0 #f77);
+}
+
 div.viewStatus {
     max-width: 100%;
     margin: 0 !important;
