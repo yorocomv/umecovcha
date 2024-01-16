@@ -5,6 +5,7 @@
   "type": "commonjs",
   "license": "MIT",
   "scripts": {
+    "kinkyuu": "npm run s_uninstall && npm run s_install && pause",
     "build": "rollup -c",
     "start": "npm run build && nodemon dist/index.cjs",
     "s_install": "node -e \"require('fs').copyFileSync('dist/index.cjs', 'dist/index-copy.cjs')\" && node Register-for-the-service/svc-install.cjs",
